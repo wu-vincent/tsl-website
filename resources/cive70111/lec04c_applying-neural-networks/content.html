@@ -176,6 +176,19 @@
                                         <div id="paramslider-epochs"></div>
                                     </div>
 
+                                    <div id="progressBarContainer" class="progress-bar-container">
+                                        <div class="progress-bar-header">
+                                            <span class="progress-label">Training Progress</span>
+                                            <div class="progress-info">
+                                                <span class="progress-text" id="progressText">0 / 0</span>
+                                                <span class="progress-eta" id="progressETA"></span>
+                                            </div>
+                                        </div>
+                                        <div class="progress-bar-track">
+                                            <div class="progress-bar-fill" id="progressBarFill"></div>
+                                        </div>
+                                    </div>
+
                                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px;">
                                         <button id="trainBtn" class="solution-btn">Train Epochs</button>
                                         <button id="resetBtn" class="reset-btn">Reset Weights</button>
