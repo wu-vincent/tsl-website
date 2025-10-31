@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Descent with Regularisation</title>
+    <script src="../phoebe-js/mathhelper.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="../phoebe-js/metriclabel.js"></script>
+</head>
+<body>
+    <div class="iframe-content">
+        <div class="container">
+
+            <div class="infotab">
+                <div class="infotab-header">
+                </div>
+                <div class="infotab-content">
+                    <div class="infotab-panel active" data-tab-title="Introduction">
+                        Gradient descent moves downhill on the loss surface, but regularisation reshapes that surface to keep coefficients in check. L2 (ridge) adds circular penalty contours that gently pull $(\beta_1, \beta_2)$ toward the origin, while L1 (lasso) forms diamond-shaped contours with sharp corners on the axes. These distinct geometries change the path the optimiser follows: ridge shrinks parameters smoothly, whereas lasso can snap one coefficient to zero when the trajectory hits a diamond corner. In civil engineering models, this geometric perspective clarifies why regularisation stabilises predictions without relying on noisy measurements.
+                    </div>
+                    <div class="infotab-panel" data-tab-title="Instructions">
+                        Use the tabs below to switch between ridge (L2) and lasso (L1) regularisation. Adjust the λ slider to set penalty strength—values near zero mimic unregularised training, while larger values tighten the constraint. Press <em>Train</em> to animate gradient descent from the initial point. Watch the contour plot: coloured contours show training loss, grey shapes mark the regularisation penalty, arrows trace each optimisation step, and the parameter readout updates after every iteration. Compare the train and total loss displays to see how the penalty term contributes to the overall objective.
+                    </div>
+                    <div class="infotab-panel" data-tab-title="Visual Guide">
+                        <strong>Legend</strong><br>
+                        • Loss contours: green &rarr; yellow &rarr; red indicate increasing training loss.<br>
+                        • Regularisation contours: grey circles for L2, grey diamonds for L1.<br>
+                        • Trail dots: small magenta markers for each gradient step; large blue dot is the starting point, large red dot is the final position.<br>
+                        • Arrows: magenta arrows connect successive steps and reveal the descent direction.<br>
+                        • Optimal markers: the green point highlights the unregularised optimum for reference when λ = 0.
+                    </div>
+                    <div class="infotab-panel" data-tab-title="Tips">
+                        Experiment with λ to see how much regularisation you need. λ = 0 recovers pure least squares and the trajectory heads straight for the MSE minimum. Small λ values nudge coefficients toward the origin without drastically changing the path. Large λ values dominate the update: ridge pulls both coefficients inward together, while lasso may zero one coefficient entirely, producing sparse solutions. Compare the final $(\beta_1, \beta_2)$ values between tabs to understand when an L1 or L2 penalty is preferable for civil engineering feature sets.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Demo Tabs (L1 vs L2) -->
+            <div class="demo-tabs">
+                <div class="demo-tab-header">
+                    <button class="demo-tab-btn active" data-tab="l2">L2 (Ridge)</button>
+                    <button class="demo-tab-btn" data-tab="l1">L1 (Lasso)</button>
+                </div>
+
+                <!-- L2 Tab Content -->
+                <div class="demo-tab-content active" data-tab="l2">
+                    <div class="demo-area">
+                        <!-- Plot Section (2/3) -->
+                        <div class="plot-section">
+                            <div class="plot-container">
+                                <canvas id="l2-plot"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Controls Section (1/3) -->
+                        <div class="controls">
+                            <!-- Current parameter values -->
+                            <div class="metriclabel" id="l2-params"></div>
+
+                            <div id="paramslider-l2-lambda"></div>
+
+                            <button class="train-btn" id="l2-train-btn">Train</button>
+                            <button class="stop-btn is-hidden" id="l2-stop-btn">Stop</button>
+
+                            <div class="metriclabel" id="l2-train-loss"></div>
+                            <div class="metriclabel" id="l2-total-loss"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- L1 Tab Content -->
+                <div class="demo-tab-content" data-tab="l1">
+                    <div class="demo-area">
+                        <!-- Plot Section (2/3) -->
+                        <div class="plot-section">
+                            <div class="plot-container">
+                                <canvas id="l1-plot"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Controls Section (1/3) -->
+                        <div class="controls">
+                            <!-- Current parameter values -->
+                            <div class="metriclabel" id="l1-params"></div>
+
+                            <div id="paramslider-l1-lambda"></div>
+
+                            <button class="train-btn" id="l1-train-btn">Train</button>
+                            <button class="stop-btn is-hidden" id="l1-stop-btn">Stop</button>
+
+                            <div class="metriclabel" id="l1-train-loss"></div>
+                            <div class="metriclabel" id="l1-total-loss"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theory Section -->
+            <div class="theory-section">
+                <h3>Geometry of Regularisation</h3>
+                <p>
+                    Regularisation reshapes the feasible set that gradient descent explores. The unregularised loss forms elliptical contours because the mean squared error depends quadratically on $\beta = (\beta_1, \beta_2)$. Adding an L2 penalty introduces concentric circular constraints, so the optimum appears where an ellipse first touches a circle, producing smooth shrinkage toward the origin. L1 regularisation instead adds diamond-shaped constraints with sharp corners on the axes; the optimum often lands on a corner, creating sparse solutions with one coefficient exactly zero. By watching the contour plot you can see how the intersection of loss ellipses and penalty shapes determines the convergence point as λ varies.
+                </p>
+            </div>
+
+            <p class="demo-credits">
+                Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank">Kevin Yu</a> &amp; <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank">Panagiotis Angeloudis</a>
+            </p>
+
+        </div>
+    </div>
+
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/paramslider.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

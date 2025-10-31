@@ -4,29 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regularisation</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     Regularization is a crucial technique to prevent overfitting in machine learning models. When models become too complex, they can memorize training data rather than learning generalizable patterns.<br><br>
                     In civil engineering applications, regularization helps create more robust models for tasks like predicting structural responses, material behavior, or system performance under varying conditions.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     • Adjust polynomial degree and L1/L2 regularization sliders—L1 (Lasso) creates sparse coefficients, L2 (Ridge) smooths the curve<br>
                     • Click the plot to add data points, or use <em>"Generate New Data"</em> and <em>"Clear All Data"</em> buttons<br>
                     • Try high polynomial degrees with and without regularization to observe overfitting prevention<br><br>
@@ -34,7 +33,7 @@
                     <strong>What polynomial degree causes overfitting without regularization? How does adding L1 or L2 regularization help?</strong>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     • <strong>High polynomial degree:</strong> Creates complex curves that may overfit without regularization<br>
                     • <strong>L1 regularization:</strong> Watch coefficients become exactly zero - automatic feature selection<br>
                     • <strong>L2 regularization:</strong> Smooths the curve and reduces oscillations<br>
@@ -45,8 +44,8 @@
         </div>
 
         <!-- Fitted Equation Display -->
-        <div class="equation-container" style="margin: 20px 0;">
-            <div class="equation-row" id="equation">
+        <div class="metriclabel-container metriclabel-container--spaced">
+            <div class="metriclabel-row" id="equation">
                 y = a₀ + a₁x
             </div>
         </div>
@@ -54,9 +53,9 @@
         <div class="demo-area">
             <div class="left-column-wrapper">
                 <div class="plot-container">
-                    <div style="position: relative; width: 600px; height: 400px;">
+                    <div class="plot-stage plot-stage--w-600 plot-stage--h-400">
                         <canvas id="plot"></canvas>
-                        <canvas id="overlay-canvas" style="position: absolute; top: 0; left: 0; pointer-events: none; background: transparent; z-index: 1; visibility: hidden;"></canvas>
+                        <canvas id="overlay-canvas" class="plot-overlay plot-overlay--hidden"></canvas>
                     </div>
                 </div>
 
@@ -93,35 +92,15 @@
             </div>
 
             <div class="controls">
-                <div class="control-group">
-                    <label for="degree">Polynomial Degree (Max Power)</label>
-                    <div class="slider-container">
-                        <input type="range" id="degree" min="0" max="9" step="1" value="1">
-                        <div class="value-display" id="degree-value">1</div>
-                    </div>
-                </div>
+                <div id="paramslider-degree"></div>
+                <div id="paramslider-l1-reg"></div>
+                <div id="paramslider-l2-reg"></div>
 
-                <div class="control-group">
-                    <label for="l1-reg">L1 Regularisation ($\lambda_1$)</label>
-                    <div class="slider-container">
-                        <input type="range" id="l1-reg" min="0" max="10000" step="1" value="0">
-                        <div class="value-display" id="l1-value">0</div>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label for="l2-reg">L2 Regularisation ($\lambda_2$)</label>
-                    <div class="slider-container">
-                        <input type="range" id="l2-reg" min="0" max="10000" step="1" value="0">
-                        <div class="value-display" id="l2-value">0</div>
-                    </div>
-                </div>
-
-                <div class="equation" id="mse" style="margin-top: 10px;">
+                <div class="metriclabel" id="mse">
                     MSE = 0.0
                 </div>
 
-                <div class="equation" id="mae" style="margin-top: 10px;">
+                <div class="metriclabel" id="mae">
                     MAE = 0.0
                 </div>
 
@@ -129,10 +108,10 @@
         </div>
 
         <!-- Coefficients Table -->
-        <div class="coefficients-container">
-            <div class="coefficients-title">Coefficients & Regularization Effects</div>
-            <div class="coefficients-scroll" id="coefficientsScroll">
-                <table class="coefficients-table" id="coefficientsTable">
+        <div class="horizontal-scroll-container">
+            <div class="horizontal-scroll-title">Coefficients & Regularization Effects</div>
+            <div class="horizontal-scroll" id="coefficientsScroll">
+                <table class="horizontal-scroll-table" id="coefficientsTable">
                     <tbody id="coefficientsBody">
                         <!-- Table rows will be dynamically generated -->
                     </tbody>
@@ -141,7 +120,7 @@
         </div>
 
         <!-- Theory Section -->
-        <div class="theory-section" style="display: none;">
+        <div class="theory-section is-hidden">
             <h3>Mathematical Foundations</h3>
             <p>
                 The regularized cost function adds a penalty term to the standard mean squared error:<br>
@@ -157,16 +136,20 @@
             </p>
         </div>
 
-        <p style="font-style: italic; text-align: right; margin-top: 10px; color: #666; font-size: 14px;">
-            Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank" style="color: #666; text-decoration: underline;">Kevin Yu</a> & <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank" style="color: #666; text-decoration: underline;">Panagiotis Angeloudis</a>
+        <p class="demo-credits">
+            Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank">Kevin Yu</a> & <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank">Panagiotis Angeloudis</a>
         </p>
 
     </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
-    <script src="../scripts/metric-box-display.js"></script>
-    <script src="../scripts/slider-control.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/metriclabel.js"></script>
+    <script src="../phoebe-js/paramslider.js"></script>
+    <!-- Utility classes -->
+    <script src="../phoebe-js/metrics.js"></script>
+    <script src="../phoebe-js/canvashelper.js"></script>
+    <script src="../phoebe-js/linalg.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

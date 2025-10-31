@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applying Neural Networks</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-    <script src="../scripts/demotab.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/paramslider.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
                 <!-- Tab buttons will be auto-generated -->
             </div>
-            <div class="tab-content">
-                <div class="tab-panel" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel" data-tab-title="Introduction">
                     <strong>Applying Neural Networks to Real Data</strong><br><br>
                     This demo shows how neural networks can be applied to real civil engineering datasets. Unlike simple demonstrations with synthetic data, you'll work with actual multi-feature regression problems from four civil engineering domains.<br><br>
 
@@ -39,29 +39,7 @@
                     Each dataset includes multiple normalized features and a single target variable, allowing you to explore how neural networks capture complex non-linear relationships.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Theory">
-                    <strong>Neural Network Regression:</strong><br><br>
-                    For regression tasks, a neural network learns to approximate a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$ that maps input features to a continuous output.<br><br>
-
-                    <strong>Forward Pass:</strong><br>
-                    For layer $l$ with weights $W^{(l)}$ and biases $b^{(l)}$:<br>
-                    $$z^{(l)} = W^{(l)} a^{(l-1)} + b^{(l)}$$
-                    $$a^{(l)} = f(z^{(l)})$$<br>
-                    where $f$ is the activation function and $a^{(l)}$ is the layer output.<br><br>
-
-                    <strong>Training:</strong><br>
-                    • <em>Loss Function:</em> Mean Squared Error (MSE) = $\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$<br>
-                    • <em>Optimizer:</em> Adam (adaptive learning rate optimization)<br>
-                    • <em>Backpropagation:</em> Computes gradients $\frac{\partial \mathcal{L}}{\partial W}$ to update weights<br>
-                    • <em>Epoch:</em> One complete pass through the training dataset<br><br>
-
-                    <strong>Evaluation Metrics:</strong><br>
-                    • <em>MSE:</em> Average squared prediction error<br>
-                    • <em>MAE:</em> Average absolute prediction error<br>
-                    • <em>R²:</em> Coefficient of determination (1.0 = perfect, 0.0 = baseline)
-                </div>
-
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     <strong>Architecture & Training Tab:</strong><br>
                     • Select a dataset from the dropdown (Structures, Environment, Transport, Geotechnics)<br>
                     • Configure the network: Add/remove hidden layers (max 3), adjust neurons per layer (1-10), choose activation functions<br>
@@ -83,7 +61,7 @@
                     • All values are automatically normalized/denormalized for you
                 </div>
 
-                <div class="tab-panel" data-tab-title="Visual Guide">
+                <div class="infotab-panel" data-tab-title="Visual Guide">
                     <strong>Network Diagram:</strong><br>
                     • <strong class="text-color-input">Blue nodes:</strong> Input features<br>
                     • <strong class="text-color-hidden">Purple nodes:</strong> Hidden layer neurons<br>
@@ -106,7 +84,7 @@
                     • <em>Geotechnics:</em> Predict soil uniformity coefficient
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     <strong>Getting Started:</strong><br>
                     • Start with 1 hidden layer of 4-6 neurons and ReLU activation<br>
                     • Train for 10-20 epochs to see initial convergence<br>
@@ -155,7 +133,7 @@
                                 <option value="geotechnics">Geotechnics: Soil Uniformity Coefficient</option>
                             </select>
                             <div id="loadingIndicator" class="loading-indicator hidden">Loading dataset...</div>
-                            <div id="datasetInfo" class="dataset-info"></div>
+                            <div id="datasetInfo" class="dataset-info-box"></div>
                         </div>
                     </div>
 
@@ -172,8 +150,8 @@
                                 <h3>Architecture Configuration</h3>
                                 <div class="architecture-controls">
                                     <div class="control-row">
-                                        <button id="addLayerBtn" class="control-btn">Add Hidden Layer</button>
-                                        <button id="removeLayerBtn" class="control-btn">Remove Hidden Layer</button>
+                                        <button id="addLayerBtn" class="add-layer-btn">Add Hidden Layer</button>
+                                        <button id="removeLayerBtn" class="remove-layer-btn">Remove Hidden Layer</button>
                                         <span id="layerCount">Hidden Layers: 1</span>
                                     </div>
                                     <div id="layerControls" class="layer-controls-container"></div>
@@ -193,16 +171,15 @@
                             <div class="section">
                                 <h3>Training Controls</h3>
                                 <div class="training-controls">
-                                    <div class="control-row">
-                                        <label>Learning Rate:</label>
-                                        <input type="number" id="learningRate" value="0.01" min="0.0001" max="1" step="0.001">
-                                        <label>Epochs:</label>
-                                        <input type="number" id="numEpochs" value="1" min="1" max="100" step="1">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                        <div id="paramslider-learning-rate"></div>
+                                        <div id="paramslider-epochs"></div>
                                     </div>
-                                    <div class="control-row">
-                                        <button id="trainBtn" class="control-btn primary">Train</button>
-                                        <button id="resetBtn" class="control-btn">Reset Weights</button>
-                                        <button id="clearHistoryBtn" class="control-btn">Clear History</button>
+
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px;">
+                                        <button id="trainBtn" class="solution-btn">Train Epochs</button>
+                                        <button id="resetBtn" class="reset-btn">Reset Weights</button>
+                                        <button id="clearHistoryBtn" class="btn-secondary">Clear History</button>
                                     </div>
                                     <div class="metrics-display">
                                         <span>Epoch: <strong id="epochDisplay">0</strong></span>
@@ -219,7 +196,7 @@
                     <div class="section">
                         <h3>Model Evaluation</h3>
                         <p>Compare the trained neural network against a multivariate linear regression baseline on the test set.</p>
-                        <button id="evaluateBtn" class="control-btn primary">Evaluate on Test Set</button>
+                        <button id="evaluateBtn" class="solution-btn">Evaluate on Test Set</button>
 
                         <div id="evaluationResults" class="evaluation-results">
                             <table id="resultsTable">
@@ -260,8 +237,8 @@
                         <div id="predictionInputs" class="prediction-inputs"></div>
 
                         <div class="control-row">
-                            <button id="useSampleBtn" class="control-btn">Use Sample Data</button>
-                            <button id="predictBtn" class="control-btn primary">Predict</button>
+                            <button id="useSampleBtn" class="btn-secondary">Use Sample Data</button>
+                            <button id="predictBtn" class="solution-btn">Predict</button>
                         </div>
 
                         <div id="predictionResults" class="prediction-results">

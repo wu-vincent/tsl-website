@@ -1,67 +1,182 @@
+        .controls h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .controls #randomise-weights-btn {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
         .network-container {
             background: white;
             border: 2px solid #ddd;
             border-radius: 0;
-            padding: 20px;
-            min-height: 500px;
+            padding: 2px;
+            min-height: 550px;
             position: relative;
             overflow: visible;
         }
 
+        .network-layer-box {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+        }
+
         .network-node {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            border: 2px solid #333;
+            border: 2px dotted #333;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             font-size: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
-            background: white;
+            background:
+                linear-gradient(0deg, #e0e0e0 1px, transparent 1px),
+                linear-gradient(90deg, #e0e0e0 1px, transparent 1px),
+                white;
+            background-size: 10px 10px;
+            background-position: center center;
             font-family: monospace;
+            z-index: 10;
+            padding: 2px;
+            overflow: hidden;
         }
 
         .network-node:hover {
             transform: scale(1.1);
-            border-width: 3px;
+            border-width: 4px;
+        }
+
+        .activation-icon {
+            width: 80%;
+            height: 28px;
+            position: relative;
+            background: transparent;
+            border-radius: 3px;
+            padding: 3px;
+            margin: 0 auto;
+        }
+
+        .activation-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .node-sum-label {
+            position: absolute;
+            font-size: 11px;
+            font-weight: bold;
+            font-family: monospace;
+            color: #666;
+            pointer-events: none;
+            text-align: center;
+            transform: translateX(-50%);
+        }
+
+        .node-output-label {
+            position: absolute;
+            font-size: 11px;
+            font-weight: bold;
+            font-family: monospace;
+            color: #333;
+            pointer-events: none;
+            text-align: center;
+            z-index: 5;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 2px 0;
+            border-radius: 3px;
+            width: 60px;
         }
 
         .network-node.input {
-            background: #e3f2fd;
-            border-color: #1976d2;
             color: #1976d2;
+            background: white;
+            border-color: #1976d2 !important;
         }
 
         .network-node.hidden {
-            background: #f3e5f5;
-            border-color: #7b1fa2;
             color: #7b1fa2;
+            border-color: #7b1fa2 !important;
         }
 
         .network-node.output {
-            background: #e8f5e8;
-            border-color: #388e3c;
             color: #388e3c;
+            border-color: #ff9800 !important;
         }
 
         .network-edge {
             position: absolute;
-            height: 2px;
+            height: 3px;
             background: #666;
             transform-origin: left center;
-            pointer-events: none;
-            opacity: 0.6;
-            transition: opacity 0.2s ease;
+            pointer-events: auto;
+            opacity: 1;
+            transition: opacity 0.2s ease, background-color 0.2s ease, height 0.2s ease;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .network-edge:hover {
+            height: 5px;
+            z-index: 3;
         }
 
         .network-edge.active {
             opacity: 1;
             background: #ff4444;
-            height: 3px;
+            height: 4px;
+            z-index: 2;
+        }
+
+        .edge-tooltip {
+            position: absolute;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-family: monospace;
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .edge-tooltip div {
+            margin: 2px 0;
+        }
+
+        .node-tooltip {
+            position: absolute;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 4px;
+            padding: 10px 14px;
+            font-size: 12px;
+            font-family: monospace;
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            max-width: 300px;
+        }
+
+        .node-tooltip div {
+            line-height: 1.4;
         }
 
         .pre-activation-label {
@@ -76,11 +191,12 @@
             color: #666;
             pointer-events: none;
             z-index: 10;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
 
         .neuron-value-label {
             position: absolute !important;
-            font-size: 12px !important;
+            font-size: 20px !important;
             font-weight: bold !important;
             font-family: monospace !important;
             background: white !important;
@@ -100,49 +216,150 @@
             font-weight: bold;
             color: #666;
             font-size: 14px;
+            text-align: center;
+            white-space: nowrap;
+            width: 100%;
+            left: 0 !important;
+            transform: none !important;
         }
 
-        .input-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+        .network-layer-label-vertical {
+            position: absolute;
+            font-weight: bold;
+            color: #666;
+            font-size: 13px;
+            text-align: center;
+            white-space: nowrap;
+            transform: rotate(-90deg);
+            transform-origin: center center;
+            pointer-events: none;
         }
 
-        .input-group {
+        .input-panel {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .input-group label {
-            width: 60px;
-            font-weight: bold;
-        }
-
-        .layer-controls {
-            background: #f8f9fa;
+            gap: 20px;
             padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
             border-radius: 0;
             margin-bottom: 20px;
         }
 
-        .layer-control-group {
+        .input-panel > div {
+            flex: 1;
+        }
+
+        .input-panel button {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .layer-controls {
+            background: #f8f9fa;
+            border-radius: 0;
+            margin-bottom: 10px;
+        }
+
+        .layer-buttons {
             display: flex;
-            align-items: center;
-            gap: 15px;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .layer-buttons button {
+            flex: 1;
+        }
+
+        .weight-legend {
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 0;
+        }
+
+        .legend-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .legend-gradient {
+            height: 20px;
+            background: linear-gradient(to right, #f44336 0%, #ffcdd2 50%, #c8e6c9 50%, #4caf50 100%);
+            border: 1px solid #ddd;
+            border-radius: 0;
+            margin-bottom: 5px;
+        }
+
+        .legend-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .layer-control-group {
             margin-bottom: 10px;
             padding: 10px;
             background: white;
             border-radius: 0;
             border: 1px solid #ddd;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .layer-control-group:hover {
+            background: #eef5ff;
+            border-color: #90caf9;
+            transform: translateY(-1px);
         }
 
         .layer-control-group:last-child {
             margin-bottom: 0;
         }
 
-        /* Button styles moved to demo-common.css */
+        .layer-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .layer-controls-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .layer-control-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .layer-control-item label {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .layer-control-item input[type="number"] {
+            width: 60px;
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            font-size: 13px;
+        }
+
+        .layer-control-item select {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            font-size: 13px;
+            background: white;
+        }
 
 
         .weight-input {
@@ -151,6 +368,13 @@
             border: 1px solid #ddd;
             border-radius: 0;
             font-size: 12px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .weight-input:focus {
+            border-color: #1976d2;
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+            outline: none;
         }
 
         .modal {
@@ -176,4 +400,15 @@
 
         .modal-content h3 {
             margin-top: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .network-node,
+            .network-edge,
+            .pre-activation-label,
+            .layer-control-group,
+            .weight-input {
+                transition: none;
+                transform: none;
+            }
         }

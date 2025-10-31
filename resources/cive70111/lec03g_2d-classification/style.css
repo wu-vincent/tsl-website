@@ -1,9 +1,29 @@
 /* 2D Classification Demo Styles */
 
-/* Left Column Wrapper - contains chart and control panels */
+/* Demo area uses 70/30 layout */
+.demo-area {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* Left Column Wrapper - contains chart and control panels (~70%) */
 .left-column-wrapper {
+    flex: 0 0 calc((100% - 20px) * 0.70);
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Controls panel (~30%) */
+.controls {
+    flex: 0 0 calc((100% - 20px) * 0.30);
+    background: #f5f7fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #dee2e6;
+    box-sizing: border-box;
 }
 
 /* Control Row - Data Buttons Panel */
@@ -90,193 +110,123 @@
     background: #7d3c98;
 }
 
-/* Class Selector Panel */
-.class-selector-panel {
-    flex: 1;
+/* Fancybox customization (styles come from phoebe.css) */
+
+/* Metric boxes in controls section */
+.controls .metriclabel {
+    position: relative;
+    margin-bottom: 0;
+}
+
+/* Dataset Buttons Section - minimal demo-specific styling */
+.dataset-buttons-section {
+    margin-top: 20px;
+    padding: 15px;
     border: 2px solid #ddd;
     border-radius: 0;
     background: white;
-    padding: 15px 20px;
 }
 
-.class-selector-panel h4 {
-    margin: 0 0 12px 0;
+.dataset-section-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
     color: #2c3e50;
     font-size: 14px;
-    font-weight: 600;
 }
 
-.class-boxes {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-start;
-}
-
-.class-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90px;
-    padding: 10px;
-    border: 3px solid #bdc3c7;
-    border-radius: 8px;
-    background: #ecf0f1;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-/* Subtle colors for inactive class boxes */
-.class-box[data-class="0"]:not(.active) {
-    background: #fff5f5;
-    border-color: #ffe0e0;
-}
-
-.class-box[data-class="1"]:not(.active) {
-    background: #f5fffe;
-    border-color: #d9f5f2;
-}
-
-.class-box:hover {
-    border-color: #95a5a6;
-    background: #dfe6e9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.class-graphic {
-    margin-bottom: 6px;
-    color: #7f8c8d;
-}
-
-/* Subtle graphic colors for inactive boxes */
-.class-box[data-class="0"]:not(.active) .class-graphic {
-    color: #ffcccc;
-}
-
-.class-box[data-class="1"]:not(.active) .class-graphic {
-    color: #b8e6e1;
-}
-
-.class-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #34495e;
-    text-align: center;
-}
-
-/* Subtle label colors for inactive boxes */
-.class-box[data-class="0"]:not(.active) .class-label {
-    color: #ffcccc;
-    opacity: 0.5;
-}
-
-.class-box[data-class="1"]:not(.active) .class-label {
-    color: #b8e6e1;
-    opacity: 0.5;
-}
-
-/* Active States - Different Colors for Each Class */
-.class-box.active[data-class="0"] {
-    border-color: #d63447;
-    background: #ffe5e5;
-}
-
-.class-box.active[data-class="0"] .class-graphic {
-    color: #ff6b6b;
-}
-
-.class-box.active[data-class="0"] .class-label {
-    color: #d63447;
-}
-
-.class-box.active[data-class="1"] {
-    border-color: #26a69a;
-    background: #e0f7f5;
-}
-
-.class-box.active[data-class="1"] .class-graphic {
-    color: #4ecdc4;
-}
-
-.class-box.active[data-class="1"] .class-label {
-    color: #26a69a;
-}
-
-/* Boundary Type Selector */
-.boundary-grid {
+.dataset-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.boundary-box {
-    padding: 15px 10px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 14px;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    opacity: 0.4;
-    filter: grayscale(50%);
-}
-
-.boundary-icon {
-    font-size: 28px;
-    line-height: 1;
-}
-
-.boundary-label {
+/* Dataset buttons use common button patterns from phoebe.css */
+/* Demo-specific colors - always visible */
+.dataset-btn {
+    padding: 10px 15px;
+    border: 2px solid;
+    border-radius: 4px;
     font-size: 13px;
     font-weight: 600;
-}
-
-.boundary-box:hover {
-    transform: translateY(-2px);
-    opacity: 0.6;
-}
-
-/* Linear boundary - Blue */
-.boundary-linear {
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    cursor: pointer;
+    transition: all 0.2s ease;
     color: white;
 }
 
-.boundary-linear.active {
-    opacity: 1;
-    filter: grayscale(0%);
+.dataset-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    filter: brightness(1.1);
+}
+
+.structures-btn {
     border-color: #3498db;
+    background: #3498db;
 }
 
-.boundary-linear.active:hover {
-    background: linear-gradient(135deg, #2980b9, #2574a9);
+.geotech-btn {
+    border-color: #27ae60;
+    background: #27ae60;
 }
 
-/* Quadratic boundary - Orange */
-.boundary-quadratic {
-    background: linear-gradient(135deg, #e67e22, #d35400);
-    color: white;
-}
-
-.boundary-quadratic.active {
-    opacity: 1;
-    filter: grayscale(0%);
+.transport-btn {
     border-color: #e67e22;
+    background: #e67e22;
 }
 
-.boundary-quadratic.active:hover {
-    background: linear-gradient(135deg, #d35400, #c44e00);
+.environment-btn {
+    border-color: #9b59b6;
+    background: #9b59b6;
 }
 
-/* Metric boxes in controls section */
-.controls .equation {
-    position: relative;
-    margin-bottom: 0;
+/* Dataset info box */
+.dataset-info-box {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    display: none;
+}
+
+.dataset-info-box.active {
+    display: block;
+}
+
+.dataset-info-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.dataset-info-description {
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.dataset-info-variables {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .demo-area {
+        flex-direction: column;
+    }
+
+    .left-column-wrapper,
+    .controls {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .dataset-buttons {
+        grid-template-columns: 1fr;
+    }
 }

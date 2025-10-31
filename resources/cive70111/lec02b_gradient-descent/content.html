@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gradient Descent</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
+    <script src="../phoebe-js/canvashelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     This interactive demo shows how gradient descent optimizes linear regression parameters. Unlike analytical solutions, gradient descent iteratively improves parameters by following the negative gradient of the cost function.<br><br>
                     You'll see the algorithm step-by-step, watching how the regression line evolves and tracking the optimization path on the cost surface. This is the foundation for training machine learning models.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     • Click <em>"Step"</em> to perform one gradient descent iteration. Watch the regression line evolve (left panel) and the optimization path on the cost surface (right panel)<br>
                     • Use <em>"Re-initialize"</em> to start from new random parameters, or load different datasets to explore various optimization landscapes<br>
                     • Adjust the learning rate $\eta$ to see different convergence behaviors—too small is slow, too large causes oscillation<br><br>
@@ -34,7 +34,7 @@
                     <strong>What learning rate gives the fastest convergence without overshooting?</strong> Try values from 0.01 to 0.5.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Visual Guide">
+                <div class="infotab-panel" data-tab-title="Visual Guide">
                     • <em>Data & Regression Line (top-left):</em> Normalized data points, current regression line, residuals (dashed red lines showing prediction errors)<br>
                     • <em>Cost Surface (top-right):</em> Cost surface contours, current position (red dot), optimization path (yellow line)<br>
                     • <em>Cost Improvement (bottom):</em> Bar chart showing $|\Delta\mathcal{J}|$ (absolute cost reduction) for each iteration. Watch how the improvements diminish as the algorithm converges to the optimal solution<br>
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="demo-area">
+        <div class="demo-area layout-stacked">
             <!-- Visualization Panels at Top -->
             <div class="gd-container">
                 <!-- Data View -->
@@ -75,10 +75,10 @@
             </div>
 
             <!-- Optimization History Table -->
-            <div class="history-container">
-                <div class="history-title">Optimization History</div>
-                <div class="history-scroll" id="historyScroll">
-                    <table class="history-table" id="historyTable">
+            <div class="horizontal-scroll-container">
+                <div class="horizontal-scroll-title">Optimization History</div>
+                <div class="horizontal-scroll" id="historyScroll">
+                    <table class="horizontal-scroll-table" id="historyTable">
                         <tbody id="historyBody">
                             <tr class="history-row-iteration">
                                 <th>Iteration</th>
@@ -149,27 +149,9 @@
                     <div>
                         <div class="control-group">
                             <label style="font-weight: bold; margin-bottom: 10px; display: block;">Initial Parameters</label>
-                            <div class="control-group">
-                                <label for="alpha0">$\alpha_0$ (intercept)</label>
-                                <div class="slider-container">
-                                    <input type="range" id="alpha0" min="-3" max="3" step="0.1" value="0">
-                                    <div class="value-display" id="alpha0-value">0.0</div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label for="beta0">$\beta_0$ (slope)</label>
-                                <div class="slider-container">
-                                    <input type="range" id="beta0" min="-3" max="3" step="0.1" value="0">
-                                    <div class="value-display" id="beta0-value">0.0</div>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label for="eta">$\eta$ (learning rate)</label>
-                                <div class="slider-container">
-                                    <input type="range" id="eta" min="0.001" max="1.5" step="0.001" value="0.1">
-                                    <div class="value-display" id="eta-value">0.100</div>
-                                </div>
-                            </div>
+                            <div id="paramslider-alpha0"></div>
+                            <div id="paramslider-beta0"></div>
+                            <div id="paramslider-eta"></div>
                         </div>
                     </div>
                 </div>
@@ -195,8 +177,8 @@
     </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
-    <script src="../scripts/slider-control.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/paramslider.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

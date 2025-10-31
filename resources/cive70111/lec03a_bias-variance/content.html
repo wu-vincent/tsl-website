@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Higher-Order Features</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,18 +16,18 @@
         <div class="container">
 
         <!-- Info Tabs -->
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     The bias-variance tradeoff is fundamental to understanding model complexity in machine learning. When fitting a polynomial to data, we face a critical choice: simple models (low degree) may underfit, while complex models (high degree) may overfit.<br><br>
 
                     This demo uses synthetic data (12 training points, 18 test points) with a complex underlying pattern combining polynomial and trigonometric components. You'll clearly see: degree 1 severely underfits (MSE ~8,500), degree 4 finds the sweet spot (MSE ~1,200), and degree 10 overfits dramatically (train MSE = 17, test MSE = 5,096!).
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     • Adjust polynomial degree slider (1-10) to see how complexity affects train vs test error<br>
                     • Check "Show Squared Errors" to visualize MSE—area of squares = prediction errors<br>
                     • Click "Toggle Test Data" to show/hide test points<br>
@@ -37,7 +36,7 @@
                     <strong>Why does degree 4 minimize test error? Why does train error reach 0 but test error explodes?</strong>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     • <strong>Degree 1:</strong> Straight line—severe underfitting (MSE ~8,500)<br>
                     • <strong>Degree 2-3:</strong> Still underfitting (MSE ~2,900 → ~260)<br>
                     • <strong>Degree 4:</strong> ✓ SWEET SPOT (Test MSE ~1,200)—best generalization!<br>
@@ -52,56 +51,44 @@
         <div class="demo-area">
             <!-- Chart: Scatter Plot with Polynomial Fit -->
             <div class="plot-container">
-                <canvas id="scatterPlot" style="max-width: 650px; max-height: 520px;"></canvas>
+                <canvas id="scatterPlot"></canvas>
             </div>
 
             <!-- Controls -->
             <div class="controls">
-                <div class="control-group">
-                    <label for="degree-slider"><strong>Polynomial Degree:</strong></label>
-                    <div class="slider-container">
-                        <input type="range" id="degree-slider" min="1" max="10" step="1" value="1">
-                        <div class="value-display" id="degree-value">1</div>
-                    </div>
-                </div>
+                <div id="paramslider-degree"></div>
 
-                <div class="equation" id="equation">
+                <div class="metriclabel" id="equation">
                     $y = \beta_0 + \beta_1 x$
                 </div>
 
                 <div class="control-group">
                     <label><strong>Display Options:</strong></label>
-                    <div class="feature-grid">
-                        <div class="feature-box feature-squared-errors" id="toggle-squared-errors">
-                            <div class="feature-icon">📐</div>
-                            <div class="feature-label">Squared Errors</div>
-                        </div>
-                        <div class="feature-box feature-test-data" id="toggle-test-data">
-                            <div class="feature-icon">🔬</div>
-                            <div class="feature-label">Test Data</div>
-                        </div>
+                    <div class="selector-grid">
+                        <div class="selectorbox" data-color="red" id="toggle-squared-errors" data-icon="📐" data-label="Squared Errors"></div>
+                        <div class="selectorbox" data-color="orange" id="toggle-test-data" data-icon="🔬" data-label="Test Data"></div>
                     </div>
                 </div>
 
-                <div class="equation" id="train-mse">
+                <div class="metriclabel" id="train-mse">
                     MSE = 0.0
                 </div>
 
-                <div class="equation" id="test-mse">
+                <div class="metriclabel" id="test-mse">
                     MSE = 0.0
                 </div>
             </div>
         </div>
 
         <!-- Chart: Error Decomposition (full width below) -->
-        <div class="plot-container" style="margin-top: 30px;">
-            <div style="position: relative; width: 100%; height: 300px;">
+        <div class="plot-container plot-container--spaced">
+            <div class="plot-stage plot-stage--w-full plot-stage--h-300">
                 <canvas id="errorChart"></canvas>
             </div>
         </div>
 
         <!-- Theory Section -->
-        <div class="theory-section" style="display: none;">
+        <div class="theory-section is-hidden">
             <h3>Mathematical Foundations</h3>
             <p>
                 <strong>Polynomial Regression</strong> models the relationship between temperature $x$ and bike rentals $y$ using a polynomial of degree $d$:
@@ -124,16 +111,17 @@
             </p>
         </div>
 
-        <p style="font-style: italic; text-align: right; margin-top: 10px; color: #666; font-size: 14px;">
-            Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank" style="color: #666; text-decoration: underline;">Kevin Yu</a> & <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank" style="color: #666; text-decoration: underline;">Panagiotis Angeloudis</a>
+        <p class="demo-credits">
+            Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank">Kevin Yu</a> & <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank">Panagiotis Angeloudis</a>
         </p>
 
     </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
-    <script src="../scripts/metric-box-display.js"></script>
-    <script src="../scripts/slider-control.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/metriclabel.js"></script>
+    <script src="../phoebe-js/paramslider.js"></script>
+    <script src="../phoebe-js/linalg.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

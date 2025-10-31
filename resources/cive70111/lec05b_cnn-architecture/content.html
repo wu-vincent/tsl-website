@@ -4,29 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CNN Architecture</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     <strong>Convolutional Neural Networks (CNNs)</strong><br><br>
                     This interactive demo shows how Convolutional Neural Networks process and classify handwritten digits from the MNIST dataset. You'll explore the internal workings of a real CNN, watching as data flows through convolutional layers, pooling layers, and fully connected layers.<br><br>
                     The demo uses actual PyTorch-trained weights, letting you see how feature maps evolve from random noise to meaningful patterns as the network learns through training epochs.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Theory">
+                <div class="infotab-panel" data-tab-title="Theory">
                     <strong>CNN Architecture Components:</strong><br><br>
                     • <strong>Convolutional Layers:</strong> Apply filters to detect features like edges and shapes<br>
                     • <strong>Pooling Layers:</strong> Reduce spatial dimensions while preserving important information<br>
@@ -39,7 +38,7 @@
                     • <strong>Parameter Sharing:</strong> Same filter weights used across entire image reduces overfitting
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     <strong>How to Use:</strong><br><br>
                     • Use the <em>numpad</em> to select MNIST digits and see real CNN processing<br>
                     • Click <em>"Draw Your Own"</em> to draw custom digits for classification<br>
@@ -59,7 +58,7 @@
                     • <em>Output Layer:</em> 10 neurons → Softmax (digit probabilities)
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     <strong>Understanding Feature Maps:</strong><br><br>
                     • <strong>Early Layers (Conv1):</strong> Look for edge detection and basic shapes<br>
                     • <strong>Deeper Layers (Conv2):</strong> Watch for more complex patterns and digit components<br>
@@ -186,7 +185,7 @@
 
                 <div class="control-group">
                     <label>Current Training Stats:</label>
-                    <div class="equation" style="font-size: 18px;">
+                    <div class="metriclabel" style="font-size: 18px;">
                         Epoch: <span id="current-epoch">0</span>/20<br>
                         Loss: <span id="current-loss">2.303</span><br>
                         Accuracy: <span id="current-accuracy">10.0%</span>
@@ -199,7 +198,7 @@
         </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
     <script src="cnn-inference.js"></script>
     <script src="script.js"></script>
 </body>

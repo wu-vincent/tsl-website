@@ -4,28 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classification Metrics</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     Classification metrics help us evaluate model performance beyond simple accuracy. This demo shows how different metrics respond to threshold changes and why accuracy alone can be misleading, especially with imbalanced data.<br><br>
                     In civil engineering, choosing the right metric is critical for safety-critical applications like structural failure prediction, where missing a dangerous case (false negative) can be catastrophic.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     • Adjust the <strong>threshold slider</strong> to change the classification boundary and observe how all metrics respond<br>
                     • Select different <strong>datasets</strong> to explore balanced vs. imbalanced scenarios<br>
                     • Watch the <strong>confusion matrix</strong> update in real-time<br>
@@ -34,7 +33,7 @@
                     <strong>Can you find a threshold where accuracy is high but sensitivity is terrible? What does this mean for real-world applications?</strong>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     • <strong>Threshold trade-off:</strong> Lower threshold → higher sensitivity, lower specificity<br>
                     • <strong>Accuracy paradox:</strong> With imbalanced data, always predicting the majority class gives high accuracy but fails the objective<br>
                     • <strong>Melanoma scenario:</strong> Shows why 99% accuracy can be useless (0% sensitivity)<br>
@@ -63,47 +62,47 @@
                 </div>
 
                 <!-- Metrics Boxes -->
-                <div class="metrics-grid">
-                    <div class="metric-box metric-sensitivity">
-                        <div class="metric-label">Sensitivity</div>
-                        <div class="metric-value" id="metric-sensitivity">0.00</div>
-                        <div class="metric-bar"><div class="metric-bar-fill" id="bar-sensitivity"></div></div>
-                        <div class="metric-formula">TP / (TP + FN)</div>
+                <div class="metric_tracker_grid">
+                    <div class="metric_tracker_box metric-sensitivity">
+                        <div class="metric_tracker_label">Sensitivity</div>
+                        <div class="metric_tracker_value" id="metric-sensitivity">0.00</div>
+                        <div class="metric_tracker_bar"><div class="metric_tracker_bar_fill" id="bar-sensitivity"></div></div>
+                        <div class="metric_tracker_formula">TP / (TP + FN)</div>
                     </div>
 
-                    <div class="metric-box metric-specificity">
-                        <div class="metric-label">Specificity</div>
-                        <div class="metric-value" id="metric-specificity">0.00</div>
-                        <div class="metric-bar"><div class="metric-bar-fill" id="bar-specificity"></div></div>
-                        <div class="metric-formula">TN / (TN + FP)</div>
+                    <div class="metric_tracker_box metric-specificity">
+                        <div class="metric_tracker_label">Specificity</div>
+                        <div class="metric_tracker_value" id="metric-specificity">0.00</div>
+                        <div class="metric_tracker_bar"><div class="metric_tracker_bar_fill" id="bar-specificity"></div></div>
+                        <div class="metric_tracker_formula">TN / (TN + FP)</div>
                     </div>
 
-                    <div class="metric-box metric-precision">
-                        <div class="metric-label">Precision (PPV)</div>
-                        <div class="metric-value" id="metric-precision">0.00</div>
-                        <div class="metric-bar"><div class="metric-bar-fill" id="bar-precision"></div></div>
-                        <div class="metric-formula">TP / (TP + FP)</div>
+                    <div class="metric_tracker_box metric-precision">
+                        <div class="metric_tracker_label">Precision (PPV)</div>
+                        <div class="metric_tracker_value" id="metric-precision">0.00</div>
+                        <div class="metric_tracker_bar"><div class="metric_tracker_bar_fill" id="bar-precision"></div></div>
+                        <div class="metric_tracker_formula">TP / (TP + FP)</div>
                     </div>
 
-                    <div class="metric-box metric-accuracy">
-                        <div class="metric-label">Accuracy</div>
-                        <div class="metric-value" id="metric-accuracy">0.00</div>
-                        <div class="metric-bar"><div class="metric-bar-fill" id="bar-accuracy"></div></div>
-                        <div class="metric-formula">(TP + TN) / Total</div>
+                    <div class="metric_tracker_box metric-accuracy">
+                        <div class="metric_tracker_label">Accuracy</div>
+                        <div class="metric_tracker_value" id="metric-accuracy">0.00</div>
+                        <div class="metric_tracker_bar"><div class="metric_tracker_bar_fill" id="bar-accuracy"></div></div>
+                        <div class="metric_tracker_formula">(TP + TN) / Total</div>
                     </div>
 
-                    <div class="metric-box metric-f1">
-                        <div class="metric-label">F1-Score</div>
-                        <div class="metric-value" id="metric-f1">0.00</div>
-                        <div class="metric-bar"><div class="metric-bar-fill" id="bar-f1"></div></div>
-                        <div class="metric-formula">2·P·R / (P + R)</div>
+                    <div class="metric_tracker_box metric-f1">
+                        <div class="metric_tracker_label">F1-Score</div>
+                        <div class="metric_tracker_value" id="metric-f1">0.00</div>
+                        <div class="metric_tracker_bar"><div class="metric_tracker_bar_fill" id="bar-f1"></div></div>
+                        <div class="metric_tracker_formula">2·P·R / (P + R)</div>
                     </div>
 
-                    <div class="metric-box metric-balanced">
-                        <div class="metric-label">Bal. Accuracy</div>
-                        <div class="metric-value" id="metric-balanced">0.00</div>
-                        <div class="metric-bar"><div class="metric-bar-fill" id="bar-balanced"></div></div>
-                        <div class="metric-formula">(Sens + Spec) / 2</div>
+                    <div class="metric_tracker_box metric-balanced">
+                        <div class="metric_tracker_label">Bal. Accuracy</div>
+                        <div class="metric_tracker_value" id="metric-balanced">0.00</div>
+                        <div class="metric_tracker_bar"><div class="metric_tracker_bar_fill" id="bar-balanced"></div></div>
+                        <div class="metric_tracker_formula">(Sens + Spec) / 2</div>
                     </div>
                 </div>
             </div>
@@ -112,23 +111,17 @@
             <!-- Bottom Row: Dataset Selector and Confusion Matrix -->
             <div class="bottom-row">
                 <!-- Dataset Selector -->
-                <div class="dataset-selector-panel">
+                <div class="fancybox-panel">
                     <h4>Dataset Scenario</h4>
-                    <div class="dataset-boxes">
-                        <div class="dataset-box active" data-dataset="balanced">
-                            <div class="dataset-icon">✨</div>
-                            <div class="dataset-label">Balanced</div>
-                            <div class="dataset-info">50/50</div>
+                    <div class="fancybox-container">
+                        <div class="fancybox active" data-type="balanced" data-color="blue" data-icon="✨" data-label="Balanced">
+                            <span class="fancybox-info">50/50</span>
                         </div>
-                        <div class="dataset-box" data-dataset="melanoma">
-                            <div class="dataset-icon">🔬</div>
-                            <div class="dataset-label">Melanoma</div>
-                            <div class="dataset-info">99.5/0.5</div>
+                        <div class="fancybox" data-type="melanoma" data-color="purple" data-icon="🔬" data-label="Melanoma">
+                            <span class="fancybox-info">99.5/0.5</span>
                         </div>
-                        <div class="dataset-box" data-dataset="bridge">
-                            <div class="dataset-icon">🌉</div>
-                            <div class="dataset-label">Bridge</div>
-                            <div class="dataset-info">95/5</div>
+                        <div class="fancybox" data-type="bridge" data-color="orange" data-icon="🌉" data-label="Bridge">
+                            <span class="fancybox-info">95/5</span>
                         </div>
                     </div>
                 </div>
@@ -169,7 +162,7 @@
         </div>
 
         <!-- Theory Section -->
-        <div class="theory-section" style="display: none;">
+        <div class="theory-section is-hidden">
             <h3>Understanding Classification Metrics</h3>
             <p>
                 <strong>The Confusion Matrix</strong> is the foundation of all classification metrics. It breaks down predictions into four categories based on true vs. predicted class:<br><br>
@@ -208,7 +201,7 @@
         </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

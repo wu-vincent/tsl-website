@@ -4,37 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neural Networks</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
                 <!-- Tab buttons will be auto-generated -->
             </div>
-            <div class="tab-content">
-                <div class="tab-panel" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel" data-tab-title="Introduction">
                     <strong>Neural Network Architecture</strong><br>
                     Neural networks are computing systems inspired by biological neural networks. They consist of interconnected nodes (neurons) organized in layers that transform input data through weighted connections and activation functions.<br><br>
-
-                    In civil engineering, neural networks can model complex relationships for:
-                    • <em>Structural response:</em> Predicting building deflection from load, material properties, and geometry<br>
-                    • <em>Material behavior:</em> Estimating concrete strength from mix proportions, curing time, and test conditions<br>
-                    • <em>Traffic patterns:</em> Forecasting congestion from weather, time, and historical flow data<br>
-                    • <em>Environmental monitoring:</em> Analyzing air quality from multiple sensor readings<br><br>
 
                     This demo lets you explore how different architectures and activation functions affect information flow through the network.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     <strong>How to Use This Demo:</strong><br>
                     • Adjust the <em>input values</em> using the sliders or enter custom values<br>
                     • <em>Click on any node</em> to view and modify its incoming weights<br>
@@ -50,41 +43,18 @@
                     • Layer customization: Change neuron counts and activation functions
                 </div>
 
-                <div class="tab-panel" data-tab-title="Visual Guide">
+                <div class="infotab-panel" data-tab-title="Visual Guide">
                     <strong>Layer Types:</strong><br>
-                    • <strong style="color: #1976d2;">Input Layer (Blue):</strong> 3 input values that you control<br>
-                    • <strong style="color: #7b1fa2;">Hidden Layers (Purple):</strong> Transform inputs using weights and activation functions<br>
-                    • <strong style="color: #388e3c;">Output Layer (Green):</strong> Single output value representing the network's prediction<br><br>
+                    • <strong style="color: #1976d2;">Input Layer:</strong> 3 input values that you control<br>
+                    • <strong style="color: #7b1fa2;">Hidden Layers:</strong> Transform inputs using weights and activation functions<br>
+                    • <strong style="color: #388e3c;">Output Layer:</strong> Single output value representing the network's prediction<br><br>
 
                     <strong>Visual Elements:</strong><br>
-                    • <em>Node background intensity</em> represents value magnitudes (brighter = larger values)<br>
-                    • <em>Node colors</em> distinguish positive (cooler hues) vs negative (warmer hues) values<br>
                     • <em>Node borders</em> are green for positive, red for negative values<br>
-                    • <em>Text color</em> automatically adjusts for readability (white on dark backgrounds)<br>
-                    • <em>Pre-activation labels</em> are green for positive, red for negative values<br>
-                    • <em>Connection thickness</em> represents weight magnitudes<br>
-                    • <em>Values display</em> shows both pre-activation → post-activation for each neuron
+                    • <em>Connection color</em> represents weight magnitudes<br>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Theory">
-                    <strong>Mathematical Foundation:</strong><br>
-                    Each neuron computes a weighted sum of its inputs, then applies an activation function:<br><br>
-
-                    $$z_i = \sum_{j} w_{ij} x_j + b_i$$
-                    $$a_i = f(z_i)$$<br><br>
-
-                    Where $z_i$ is the pre-activation, $a_i$ is the post-activation output, $w_{ij}$ are weights, and $f()$ is the activation function.<br><br>
-
-                    <strong>Activation Functions:</strong><br>
-                    • <em>Linear:</em> $f(x) = x$ (preserves input)<br>
-                    • <em>ReLU:</em> $f(x) = \max(0, x)$ (introduces non-linearity while remaining simple)<br>
-                    • <em>Sigmoid:</em> $f(x) = \frac{1}{1 + e^{-x}}$ (squashes to [0,1] range)<br>
-                    • <em>Tanh:</em> $f(x) = \tanh(x)$ (squashes to [-1,1] range, zero-centered)<br><br>
-
-                    Non-linear activations enable the network to learn complex patterns.
-                </div>
-
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     <strong>Architecture Guidelines:</strong><br>
                     • Start with 1-2 hidden layers for most problems<br>
                     • Use 10-100 neurons per layer as a starting point<br>
@@ -106,50 +76,44 @@
             </div>
         </div>
 
+        <!-- Input Controls Panel -->
+        <div class="input-panel">
+            <div id="paramslider-input1"></div>
+            <div id="paramslider-input2"></div>
+            <div id="paramslider-input3"></div>
+            <button class="generate-data-btn" id="random-inputs-btn">Generate Random Inputs</button>
+        </div>
+
         <div class="demo-area">
-            <div class="controls" style="flex: 1; margin-right: 20px;">
-
-                <!-- Input Controls -->
-                <div class="control-group">
-                    <label>Input Values</label>
-                    <div class="input-controls">
-                        <div class="input-group">
-                            <label>Input 1:</label>
-                            <input type="range" id="input1" min="-5" max="5" step="0.1" value="1.0">
-                            <input type="number" id="input1-num" min="-10" max="10" step="0.1" value="1.0" style="width: 80px;">
-                        </div>
-                        <div class="input-group">
-                            <label>Input 2:</label>
-                            <input type="range" id="input2" min="-5" max="5" step="0.1" value="0.5">
-                            <input type="number" id="input2-num" min="-10" max="10" step="0.1" value="0.5" style="width: 80px;">
-                        </div>
-                        <div class="input-group">
-                            <label>Input 3:</label>
-                            <input type="range" id="input3" min="-5" max="5" step="0.1" value="-1.0">
-                            <input type="number" id="input3-num" min="-10" max="10" step="0.1" value="-1.0" style="width: 80px;">
-                        </div>
-                        <button class="generate-data-btn" id="random-inputs-btn">Generate Random Inputs</button>
-                    </div>
+            <div class="plot-container" style="flex: 1.95;">
+                <div class="network-container" id="network-container">
+                    <!-- Network diagram will be rendered here -->
                 </div>
+            </div>
 
+            <div class="controls" style="flex: 1.15;">
                 <!-- Network Architecture Controls -->
                 <div class="control-group">
-                    <label>Network Architecture</label>
+                    <h3>Network Architecture</h3>
+                    <button class="btn-warning" id="randomise-weights-btn">Randomise Weights & Biases</button>
                     <div class="layer-controls" id="layer-controls">
                         <!-- Dynamic layer controls will be inserted here -->
                     </div>
-                    <div style="text-align: center; margin-top: 10px;">
+                    <div class="layer-buttons">
                         <button class="add-layer-btn" id="add-layer-btn">+ Add Layer</button>
                         <button class="remove-layer-btn" id="remove-layer-btn">- Remove Layer</button>
                     </div>
-                </div>
 
-
-            </div>
-
-            <div class="plot-container" style="flex: 2;">
-                <div class="network-container" id="network-container">
-                    <!-- Network diagram will be rendered here -->
+                    <!-- Weight Legend -->
+                    <div class="weight-legend">
+                        <div class="legend-title">Weights & Biases</div>
+                        <div class="legend-gradient"></div>
+                        <div class="legend-labels">
+                            <span>Negative</span>
+                            <span>0</span>
+                            <span>Positive</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -171,7 +135,8 @@
     </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/paramslider.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

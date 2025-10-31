@@ -36,26 +36,50 @@
         </div>
     </div>
 
+    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <span id="toggle-arrow">&lsaquo;</span>
+    </button>
+
     <div class="main-content">
         <iframe id="content-frame" src="gallery.html" style="width: 100%; height: calc(100vh - 80px); border: none; overflow: auto;"></iframe>
     </div>
 
     <script>
-        function loadContent(contentPath, title, navId, pushState = true) {
+        // Track previous demo hash for detecting demo changes vs tab changes
+        let previousDemoHash = '';
+
+        // Cache DOM elements for better performance
+        const cachedElements = {
+            sidebar: null,
+            arrow: null,
+            iframe: null,
+            titleSeparator: null,
+            titleSub: null
+        };
+
+        // Initialize cached elements after DOM loads
+        function initCachedElements() {
+            cachedElements.sidebar = document.querySelector('.sidebar');
+            cachedElements.arrow = document.getElementById('toggle-arrow');
+            cachedElements.iframe = document.getElementById('content-frame');
+            cachedElements.titleSeparator = document.getElementById('title-separator');
+            cachedElements.titleSub = document.getElementById('title-sub');
+        }
+
+        function loadContent(contentPath, title, navId, pushState = true, skipSidebarReset = false) {
             // Update the iframe source
-            const iframe = document.getElementById('content-frame');
-            iframe.src = contentPath;
+            cachedElements.iframe.src = contentPath;
 
             // Update the page title
             if (title === 'CIVE70111 Machine Learning Playground') {
                 document.title = 'CIVE70111 Machine Learning Playground';
-                document.getElementById('title-separator').style.display = 'none';
-                document.getElementById('title-sub').style.display = 'none';
+                cachedElements.titleSeparator.style.display = 'none';
+                cachedElements.titleSub.style.display = 'none';
             } else {
                 document.title = title + ' - CIVE70111 ML Playground';
-                document.getElementById('title-separator').style.display = 'inline';
-                document.getElementById('title-sub').style.display = 'inline';
-                document.getElementById('title-sub').textContent = title;
+                cachedElements.titleSeparator.style.display = 'inline';
+                cachedElements.titleSub.style.display = 'inline';
+                cachedElements.titleSub.textContent = title;
             }
 
             // Update active navigation
@@ -68,6 +92,28 @@
                 const selectedNav = document.getElementById(navId);
                 if (selectedNav) {
                     selectedNav.classList.add('active');
+                }
+            }
+
+            // Only expand sidebar and clear state when navigating to a different demo
+            if (!skipSidebarReset) {
+                const currentDemo = getDemoHash();
+                // Target URL is constructed from navId, no need to decode
+                const targetUrl = navId === 'nav-home' ? '#' : '#' + navId.replace('nav-', '');
+                const targetDemo = targetUrl.includes('|') ? targetUrl.split('|')[0] : targetUrl;
+
+                // Only reset sidebar if we're changing demos (not tabs within same demo)
+                if (currentDemo !== targetDemo) {
+                    if (cachedElements.sidebar.classList.contains('collapsed')) {
+                        cachedElements.sidebar.classList.remove('collapsed');
+                        cachedElements.arrow.innerHTML = '&lsaquo;';
+                    }
+
+                    // Clear saved sidebar state since we're on a new demo
+                    localStorage.removeItem('sidebarState');
+
+                    // Update previous demo hash tracker
+                    previousDemoHash = targetDemo;
                 }
             }
 
@@ -86,11 +132,29 @@
         window.addEventListener('popstate', function(event) {
             if (event.state) {
                 loadContent(event.state.contentPath, event.state.title, event.state.navId, false);
+            } else {
+                // Check if we're staying on same demo
+                const currentDemo = getDemoHash();
+                if (currentDemo === previousDemoHash) {
+                    // Same demo, don't expand sidebar
+                    return;
+                }
+
+                // Different demo or going to home - expand sidebar
+                if (cachedElements.sidebar.classList.contains('collapsed')) {
+                    cachedElements.sidebar.classList.remove('collapsed');
+                    cachedElements.arrow.innerHTML = '&lsaquo;';
+                }
+                localStorage.removeItem('sidebarState');
+                previousDemoHash = currentDemo;
             }
         });
 
         // Initialize navigation state and handle direct URL access
         window.addEventListener('load', async function() {
+            // Initialize cached DOM elements first
+            initCachedElements();
+
             // Wait for demo loader to initialize
             if (window.demoLoader && window.demoLoader.config) {
                 await handleDirectURL();
@@ -98,6 +162,12 @@
                 // Fallback: wait for demo loader
                 document.addEventListener('DOMContentLoaded', handleDirectURL);
             }
+
+            // Restore sidebar state after URL handling
+            restoreSidebarState();
+
+            // Initialize previous demo hash after page loads
+            previousDemoHash = getDemoHash();
         });
 
         async function handleDirectURL() {
@@ -107,10 +177,18 @@
             let navId = 'nav-home';
             let tabHash = '';
 
+            // Decode hash to handle URL-encoded pipe (%7C)
+            let decoded = hash;
+            try {
+                decoded = decodeURIComponent(hash);
+            } catch (e) {
+                console.warn('Failed to decode hash in handleDirectURL:', hash, e);
+            }
+
             // Check if hash contains pipe separator for tab routing
-            let demoHash = hash;
-            if (hash.includes('|')) {
-                const parts = hash.split('|');
+            let demoHash = decoded;
+            if (decoded.includes('|')) {
+                const parts = decoded.split('|');
                 demoHash = parts[0];
                 tabHash = parts[1];
             }
@@ -131,8 +209,8 @@
                 }
             }
 
-            // Load the appropriate content
-            loadContent(contentPath, title, navId, false);
+            // Load the appropriate content (but don't clear sidebar state yet)
+            loadContent(contentPath, title, navId, false, true);
 
             // Set initial state
             history.replaceState({
@@ -144,10 +222,83 @@
 
         // Handle iframe height adjustment for responsive content
         window.addEventListener('resize', function() {
-            const iframe = document.getElementById('content-frame');
-            if (iframe) {
-                iframe.style.height = 'calc(100vh - 80px)';
+            if (cachedElements.iframe) {
+                cachedElements.iframe.style.height = 'calc(100vh - 80px)';
             }
+        });
+
+        // Get demo portion of URL (without tab hash)
+        function getDemoHash() {
+            const hash = window.location.hash || '#';
+            // Decode the hash to handle URL-encoded pipe (%7C)
+            try {
+                const decoded = decodeURIComponent(hash);
+                // If hash contains pipe separator for tabs, only return the demo part
+                if (decoded.includes('|')) {
+                    return decoded.split('|')[0];
+                }
+                return decoded;
+            } catch (e) {
+                // If decode fails, use raw hash
+                console.warn('Failed to decode hash:', hash, e);
+                if (hash.includes('|')) {
+                    return hash.split('|')[0];
+                }
+                return hash;
+            }
+        }
+
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            cachedElements.sidebar.classList.toggle('collapsed');
+
+            // Update arrow direction
+            if (cachedElements.sidebar.classList.contains('collapsed')) {
+                cachedElements.arrow.innerHTML = '&rsaquo;';
+            } else {
+                cachedElements.arrow.innerHTML = '&lsaquo;';
+            }
+
+            // Save state with current demo (ignore tab changes)
+            const currentDemo = getDemoHash();
+            localStorage.setItem('sidebarState', JSON.stringify({
+                collapsed: cachedElements.sidebar.classList.contains('collapsed'),
+                page: currentDemo
+            }));
+        }
+
+        // Restore sidebar state on page load (only if same demo)
+        function restoreSidebarState() {
+            const savedState = localStorage.getItem('sidebarState');
+            if (savedState) {
+                const { collapsed, page } = JSON.parse(savedState);
+                const currentDemo = getDemoHash();
+
+                // Only restore collapsed state if we're on the same demo (ignore tab)
+                if (collapsed && page === currentDemo) {
+                    cachedElements.sidebar.classList.add('collapsed');
+                    cachedElements.arrow.innerHTML = '&rsaquo;';
+                }
+            }
+        }
+
+        // Handle hash changes (for tab navigation within demos)
+        window.addEventListener('hashchange', function() {
+            const currentDemoHash = getDemoHash();
+
+            // If we're on the same demo (just tab changed), don't touch sidebar
+            if (currentDemoHash === previousDemoHash) {
+                // Tab changed within same demo - do nothing to sidebar, it should stay as is
+                return;
+            }
+
+            // Demo changed - expand sidebar and clear state
+            if (cachedElements.sidebar.classList.contains('collapsed')) {
+                cachedElements.sidebar.classList.remove('collapsed');
+                cachedElements.arrow.innerHTML = '&lsaquo;';
+            }
+            localStorage.removeItem('sidebarState');
+            previousDemoHash = currentDemoHash;
         });
     </script>
 </body>

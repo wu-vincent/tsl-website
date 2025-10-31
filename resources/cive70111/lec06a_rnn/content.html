@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recurrent Neural Networks</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
+    <script src="../phoebe-js/canvashelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     <strong>Recurrent Neural Networks (RNNs)</strong><br><br>
                     This interactive demo shows how Recurrent Neural Networks process sequential data step-by-step. RNNs have a "memory" that allows them to use information from previous timesteps when processing current inputs.<br><br>
                     You'll explore how the hidden state evolves over time and see how different weights and activation functions affect the network's behavior on various sequence patterns.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Theory">
+                <div class="infotab-panel" data-tab-title="Theory">
                     <strong>RNN Architecture Components:</strong><br><br>
                     • <strong>Hidden State:</strong> $h_t$ - Memory that carries information from previous timesteps<br>
                     • <strong>Input Weight:</strong> $W_{input}$ - How much the current input affects the hidden state<br>
@@ -38,7 +38,7 @@
                     Where $f$ is the activation function, $x_t$ is the input at time $t$, and $h_{t-1}$ is the previous hidden state.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     <strong>How to Use:</strong><br><br>
                     • <em>Select a sequence</em> from the dropdown to see different patterns (Fibonacci, linear, etc.)<br>
                     • <em>Adjust weights</em> to see how they affect hidden state evolution<br>
@@ -53,7 +53,7 @@
                     • <em>Sine Pattern:</em> Smooth oscillating values
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     <strong>Understanding RNN Behavior:</strong><br><br>
                     • <strong>Input Weight ($W_{input}$):</strong> Higher values make current input more influential<br>
                     • <strong>Hidden Weight ($W_{hidden}$):</strong> Higher values give more importance to memory<br>
@@ -162,13 +162,13 @@
         </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
     <script src="script.js"></script>
     <script>
         // Initialize the demo when the page loads
         window.addEventListener('DOMContentLoaded', function() {
-            // Initialize demo tabs
-            new DemoTabController();
+            // Initialize info tabs
+            new InfoTab();
 
             // Initialize the demo
             new RNNDemo();

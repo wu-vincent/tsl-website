@@ -1,45 +1,37 @@
-# SliderControl - Usage Examples
+# ParamSlider - Usage Examples
 
-The `slider-control.js` utility provides a standardized, reusable component for slider controls with automatic value display, optional fine-tune buttons, MathJax label support, and flexible formatting.
+The `paramslider.js` utility provides a standardized, reusable component for slider controls with automatic HTML generation, value display, optional fine-tune buttons, MathJax label support, and flexible formatting.
 
 ## Basic Setup
 
 ### 1. Include the script in your HTML
 
 ```html
-<script src="../scripts/slider-control.js"></script>
+<script src="../phoebe-js/paramslider.js"></script>
 <script src="script.js"></script>
 ```
 
 ### 2. HTML Structure
 
-**Option A: Minimal HTML** (component creates everything)
+Simply create an empty container div for each slider using the `paramslider-{name}` naming convention:
 ```html
-<input type="range" id="degree-slider">
+<div id="paramslider-alpha"></div>
+<div id="paramslider-beta"></div>
 ```
 
-**Option B: Existing structure** (component enhances)
-```html
-<div class="control-group">
-    <label for="alpha">Alpha</label>
-    <div class="slider-container">
-        <input type="range" id="alpha" min="-100" max="200" step="0.1" value="0">
-        <div class="value-display" id="alpha-value">0.0</div>
-    </div>
-</div>
-```
-
-The component works with both approaches!
+The ParamSlider component will automatically generate all required HTML structure.
 
 ---
 
 ## Usage Examples
 
-### Example 1: Simple Slider (Most Common)
+### Example 1: Simple Linear Slider (Recommended)
+
+**HTML:** `<div id="paramslider-degree"></div>`
 
 ```javascript
-// Minimal configuration
-const degreeSlider = new SliderControl('degree-slider', {
+const degreeSlider = new ParamSlider('paramslider-degree', {
+    inputId: 'degree',
     label: 'Polynomial Degree',
     min: 1,
     max: 10,
@@ -51,20 +43,23 @@ const degreeSlider = new SliderControl('degree-slider', {
     }
 });
 
+// Generates complete HTML structure automatically
 // Decimals auto-detected from step (step=1 → decimals=0)
 // Value display shows: "1"
 ```
 
 ### Example 2: Slider with MathJax Label
 
+**HTML:** `<div id="paramslider-alpha"></div>`
+
 ```javascript
-const alphaSlider = new SliderControl('alpha', {
+const alphaSlider = new ParamSlider('paramslider-alpha', {
+    inputId: 'alpha',
     label: '$\\alpha$ (Intercept)',
     min: -100,
     max: 200,
     step: 0.1,
     value: 0,
-    decimals: 1,  // Auto-detected from step, but can override
     onChange: (value) => {
         this.updateDisplay();
         this.updateChart();
@@ -77,14 +72,16 @@ const alphaSlider = new SliderControl('alpha', {
 
 ### Example 3: Slider with Fine-Tune Buttons
 
+**HTML:** `<div id="paramslider-beta"></div>`
+
 ```javascript
-const betaSlider = new SliderControl('beta', {
+const betaSlider = new ParamSlider('paramslider-beta', {
+    inputId: 'beta',
     label: '$\\beta$ (Slope)',
     min: -10,
     max: 30,
     step: 0.01,
     value: 1,
-    decimals: 2,
     fineTuneStep: 0.01,  // Creates +/- buttons!
     onChange: (value) => {
         this.updateRegression();
@@ -92,15 +89,18 @@ const betaSlider = new SliderControl('beta', {
 });
 
 // Component automatically creates:
-// - Label with +/- buttons
+// - Label with +/- buttons in label-with-buttons wrapper
 // - Slider with value display
 // - Button clicks adjust by fineTuneStep
 ```
 
 ### Example 4: Custom Value Formatting
 
+**HTML:** `<div id="paramslider-eta"></div>`
+
 ```javascript
-const learningRateSlider = new SliderControl('eta', {
+const learningRateSlider = new ParamSlider('paramslider-eta', {
+    inputId: 'eta',
     label: '$\\eta$ (Learning Rate)',
     min: 0.001,
     max: 1.5,
@@ -117,8 +117,11 @@ const learningRateSlider = new SliderControl('eta', {
 
 ### Example 5: Prefix/Suffix
 
+**HTML:** `<div id="paramslider-weight"></div>`
+
 ```javascript
-const weightSlider = new SliderControl('weight', {
+const weightSlider = new ParamSlider('paramslider-weight', {
+    inputId: 'weight',
     label: 'Weight',
     min: 0,
     max: 100,
@@ -136,8 +139,11 @@ const weightSlider = new SliderControl('weight', {
 
 ### Example 6: Debounced Updates (Performance)
 
+**HTML:** `<div id="paramslider-complexity"></div>`
+
 ```javascript
-const complexSlider = new SliderControl('complexity', {
+const complexSlider = new ParamSlider('paramslider-complexity', {
+    inputId: 'complexity',
     label: 'Model Complexity',
     min: 1,
     max: 100,
@@ -157,8 +163,11 @@ const complexSlider = new SliderControl('complexity', {
 
 ### Example 7: Programmatic Control
 
+**HTML:** `<div id="paramslider-parameter"></div>`
+
 ```javascript
-const slider = new SliderControl('parameter', {
+const slider = new ParamSlider('paramslider-parameter', {
+    inputId: 'parameter',
     label: 'Parameter',
     min: 0,
     max: 100,
@@ -181,7 +190,7 @@ slider.setValue(75, { silent: true });
 // Set value and trigger onCommit
 slider.setValue(75, { commit: true });
 
-// Alias for setValue (consistent with MetricBoxDisplay)
+// Alias for setValue (consistent with MetricLabel)
 slider.update(80);
 
 // Update configuration
@@ -196,6 +205,16 @@ slider.destroy();
 ```
 
 ### Example 8: Multiple Sliders (Bulk Initialization)
+
+**HTML:**
+```html
+<div id="paramslider-w1"></div>
+<div id="paramslider-w2"></div>
+<div id="paramslider-bias"></div>
+<div id="paramslider-w11"></div>
+<div id="paramslider-w22"></div>
+<div id="paramslider-w12"></div>
+```
 
 ```javascript
 // For demos with many similar sliders (e.g., lec03c with 6 sliders)
@@ -215,7 +234,8 @@ class ClassificationDemo {
         this.sliders = {};
         Object.keys(this.sliderConfigs).forEach(id => {
             const config = this.sliderConfigs[id];
-            this.sliders[id] = new SliderControl(id, {
+            this.sliders[id] = new ParamSlider(`paramslider-${id}`, {
+                inputId: id,
                 ...config,
                 step: 0.1,
                 decimals: 1,
@@ -240,8 +260,11 @@ class ClassificationDemo {
 
 ### Example 9: With Accessibility
 
+**HTML:** `<div id="paramslider-alpha"></div>`
+
 ```javascript
-const slider = new SliderControl('alpha', {
+const slider = new ParamSlider('paramslider-alpha', {
+    inputId: 'alpha',
     label: '$\\alpha$ (Intercept)',
     min: -100,
     max: 200,
@@ -260,23 +283,24 @@ const slider = new SliderControl('alpha', {
 ### Constructor
 
 ```javascript
-new SliderControl(elementId, options)
+new ParamSlider(containerId, options)
 ```
 
 **Parameters:**
 
-- `elementId` (string): ID of the slider input element
+- `containerId` (string): ID of the container div (following `paramslider-{name}` convention)
 - `options` (object): Configuration options
 
 **Options:**
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
+| `inputId` | string | **required** | ID for the slider input element (e.g., `'alpha'` for `paramslider-alpha`) |
 | `label` | string | - | Label text (supports MathJax `$...$`) |
-| `min` | number | from input | Minimum value |
-| `max` | number | from input | Maximum value |
-| `step` | number | from input | Step increment |
-| `value` | number | from input | Initial value |
+| `min` | number | **required** | Minimum value |
+| `max` | number | **required** | Maximum value |
+| `step` | number | **required** | Step increment |
+| `value` | number | **required** | Initial value |
 | `decimals` | number | auto-detect | Decimal places for display |
 | `fineTuneStep` | number | - | If provided, creates +/- buttons |
 | `onChange` | function | - | Callback: `(value) => {}` |
@@ -319,7 +343,7 @@ slider.setValue(50, { commit: true });
 ```
 
 #### `update(value, options)`
-Alias for `setValue()` - consistent with MetricBoxDisplay API.
+Alias for `setValue()` - consistent with MetricLabel API.
 
 ```javascript
 slider.update(75);
@@ -395,17 +419,17 @@ const display = slider.valueDisplayElement;
 
 ### Static Methods
 
-#### `SliderControl.initAll(selector, buildOptions)`
+#### `ParamSlider.initAll(selector, buildOptions)`
 Bulk initialize multiple sliders.
 
 **Parameters:**
 - `selector` (string): CSS selector for slider inputs
 - `buildOptions` (function): Function to build options: `(element) => options`
 
-**Returns:** Array of SliderControl instances
+**Returns:** Array of ParamSlider instances
 
 ```javascript
-const sliders = SliderControl.initAll('input[type="range"]', (element) => ({
+const sliders = ParamSlider.initAll('input[type="range"]', (element) => ({
     label: element.dataset.label,
     onChange: () => this.update()
 }));
@@ -416,8 +440,8 @@ const sliders = SliderControl.initAll('input[type="range"]', (element) => ({
 ## Migration from Manual Sliders
 
 ### Before (Manual Implementation)
-```javascript
-// HTML
+```html
+<!-- HTML: 12 lines per slider -->
 <div class="control-group">
     <label for="alpha">$\alpha$ (Intercept)</label>
     <div class="slider-container">
@@ -425,8 +449,10 @@ const sliders = SliderControl.initAll('input[type="range"]', (element) => ({
         <div class="value-display" id="alpha-value">0.0</div>
     </div>
 </div>
+```
 
-// JavaScript (~15-20 lines)
+```javascript
+// JavaScript: ~15-20 lines per slider
 this.alphaSlider = document.getElementById('alpha');
 this.alphaValue = document.getElementById('alpha-value');
 
@@ -438,19 +464,21 @@ this.alphaSlider.addEventListener('input', () => {
 });
 ```
 
-### After (SliderControl)
-```javascript
-// HTML (same or minimal)
-<input type="range" id="alpha">
+### After (ParamSlider)
+```html
+<!-- HTML: 1 line per slider -->
+<div id="paramslider-alpha"></div>
+```
 
-// JavaScript (1 line!)
-this.alphaSlider = new SliderControl('alpha', {
+```javascript
+// JavaScript: Configuration in one place
+this.alphaSlider = new ParamSlider('paramslider-alpha', {
+    inputId: 'alpha',
     label: '$\\alpha$ (Intercept)',
     min: -100,
     max: 200,
     step: 0.1,
     value: 0,
-    decimals: 1,
     onChange: (value) => {
         this.updateDisplay();
         this.updateChart();
@@ -459,12 +487,14 @@ this.alphaSlider = new SliderControl('alpha', {
 ```
 
 **Benefits:**
-- 15-20 lines reduced to 1 line (93% reduction!)
-- No manual DOM queries
-- No manual event listeners
-- No manual value formatting
-- Automatic MathJax rendering
-- Optional +/- buttons with 1 parameter
+- **HTML reduced by 92%**: 12 lines → 1 line per slider
+- **JavaScript centralized**: All configuration in one place
+- **Auto-generated structure**: Component builds its own HTML
+- **No manual DOM queries**: Component manages elements
+- **No manual event listeners**: Built-in event handling
+- **No manual value formatting**: Auto-detects decimals from step
+- **Automatic MathJax rendering**: Supports `$...$` notation
+- **Optional +/- buttons**: Add with single `fineTuneStep` parameter
 
 ---
 
@@ -473,7 +503,7 @@ this.alphaSlider = new SliderControl('alpha', {
 1. **Let decimals auto-detect** - Only override when you need specific formatting
 2. **Use debounceMs for expensive operations** - Improves performance on complex updates
 3. **Use onCommit for final actions** - Good for analytics or saving state
-4. **Consistent with MetricBoxDisplay** - Both use `update()` method
+4. **Consistent with MetricLabel** - Both use `update()` method
 5. **Enable accessibility** - Use `ariaLabel` and `ariaValueText` for screen readers
 6. **Group related sliders** - Store in object for easy access
 
@@ -483,7 +513,7 @@ this.alphaSlider = new SliderControl('alpha', {
 
 ### Pattern 1: Reset Button
 ```javascript
-const slider = new SliderControl('param', { /* ... */ });
+const slider = new ParamSlider('param', { /* ... */ });
 
 document.getElementById('reset-btn').addEventListener('click', () => {
     slider.setValue(0);  // Triggers onChange
@@ -501,7 +531,7 @@ function computeResult() {
 
 ### Pattern 3: Conditional Updates
 ```javascript
-const slider = new SliderControl('threshold', {
+const slider = new ParamSlider('threshold', {
     /* ... */,
     onChange: (value) => {
         if (value > 0.5) {
@@ -517,8 +547,9 @@ const slider = new SliderControl('threshold', {
 ## Troubleshooting
 
 ### Slider doesn't appear
-- Ensure the input element exists before creating SliderControl
-- Check that the element ID is correct
+- Ensure the container div exists before creating ParamSlider
+- Check that the container ID matches the `paramslider-{name}` convention
+- Verify `inputId` parameter is provided in options
 
 ### MathJax not rendering
 - Ensure MathJax is loaded before creating sliders
@@ -552,7 +583,7 @@ const slider = new SliderControl('threshold', {
 
 ## Compatibility
 
-- Works with existing HTML structure (non-destructive)
-- Compatible with all existing CSS classes
-- No conflicts with manual sliders on the same page
+- Automatically generates HTML structure from minimal container divs
+- Compatible with all existing CSS classes in phoebe.css
 - MathJax is optional (works without it)
+- Supports both linear and logarithmic scale sliders

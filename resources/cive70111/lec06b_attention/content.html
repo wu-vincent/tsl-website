@@ -4,23 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attention Mechanism</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     <h3>Attention Mechanism</h3>
                     <p>The attention mechanism is a fundamental component of modern neural networks, particularly in natural language processing and computer vision. It allows models to focus on relevant parts of the input when processing information.</p>
 
@@ -35,12 +34,12 @@
                     <p>The demo uses causal masking (lower triangular) typical in language models, where tokens can only attend to previous positions.</p>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Theory">
+                <div class="infotab-panel" data-tab-title="Theory">
                     <h3>Mathematical Foundation</h3>
 
                     <p>The attention mechanism computes a weighted average of value vectors, where weights are determined by the compatibility between queries and keys:</p>
 
-                    <div class="equation-block">
+                    <div class="metriclabel-block">
                         $$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
                     </div>
 
@@ -56,7 +55,7 @@
                     <p><strong>Why scaling by $\sqrt{d_k}$?</strong> This prevents the dot products from becoming too large, which would push the softmax into regions with extremely small gradients.</p>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     <h3>How to Use This Demo</h3>
 
                     <ul>
@@ -76,7 +75,7 @@
                     </ul>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     <h3>Understanding the Visualization</h3>
 
                     <p><strong>Educational Notes:</strong></p>
@@ -190,7 +189,7 @@
         </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

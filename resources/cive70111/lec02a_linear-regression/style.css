@@ -88,7 +88,7 @@
     height: 16px;
 }
 
-/* .equation base styling now handled by global styles.css */
+/* .metriclabel base styling now handled by phoebe.css */
 
 
 .leaderboard-panel {
@@ -207,5 +207,3 @@
     width: 100%;
     margin-top: 15px;
 }
-
-/* Fine-tune button styles now in global styles.css */

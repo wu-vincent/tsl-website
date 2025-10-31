@@ -1,0 +1,77 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="200" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1e293b">
+    Gradient Descent with Regularisation
+  </text>
+
+  <!-- Plot background (white) -->
+  <rect x="50" y="60" width="320" height="180" fill="white" stroke="#e0e0e0" stroke-width="1"/>
+
+  <!-- Grid lines -->
+  <line x1="50" y1="100" x2="370" y2="100" stroke="#f0f0f0" stroke-width="1"/>
+  <line x1="50" y1="140" x2="370" y2="140" stroke="#f0f0f0" stroke-width="1"/>
+  <line x1="50" y1="180" x2="370" y2="180" stroke="#f0f0f0" stroke-width="1"/>
+  <line x1="130" y1="60" x2="130" y2="240" stroke="#f0f0f0" stroke-width="1"/>
+  <line x1="210" y1="60" x2="210" y2="240" stroke="#f0f0f0" stroke-width="1"/>
+  <line x1="290" y1="60" x2="290" y2="240" stroke="#f0f0f0" stroke-width="1"/>
+
+  <!-- Axes -->
+  <line x1="50" y1="240" x2="370" y2="240" stroke="#9e9e9e" stroke-width="1.5"/>
+  <line x1="50" y1="60" x2="50" y2="240" stroke="#9e9e9e" stroke-width="1.5"/>
+
+  <!-- Axis labels -->
+  <text x="210" y="260" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">β₁</text>
+  <text x="30" y="155" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666" transform="rotate(-90 30 155)">β₂</text>
+
+  <!-- Loss contours (elliptical, colored gradient) -->
+  <ellipse cx="280" cy="110" rx="70" ry="50" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.6"/>
+  <ellipse cx="280" cy="110" rx="55" ry="38" fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.6"/>
+  <ellipse cx="280" cy="110" rx="40" ry="26" fill="none" stroke="#4ade80" stroke-width="2" opacity="0.6"/>
+
+  <!-- L2 Regularization contours (grey circles) -->
+  <circle cx="210" cy="150" r="60" fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,4" opacity="0.5"/>
+  <circle cx="210" cy="150" r="80" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.4"/>
+  <circle cx="210" cy="150" r="100" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.3"/>
+
+  <!-- Gradient descent trajectory -->
+  <!-- Starting point (blue) -->
+  <circle cx="100" cy="80" r="6" fill="#3b82f6" stroke="#2563eb" stroke-width="2"/>
+
+  <!-- Trail dots and arrows -->
+  <circle cx="120" cy="90" r="3" fill="#9b59b6"/>
+  <path d="M 100,80 L 120,90" stroke="#9b59b6" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <circle cx="145" cy="105" r="3" fill="#9b59b6"/>
+  <path d="M 120,90 L 145,105" stroke="#9b59b6" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <circle cx="175" cy="120" r="3" fill="#9b59b6"/>
+  <path d="M 145,105 L 175,120" stroke="#9b59b6" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <circle cx="205" cy="130" r="3" fill="#9b59b6"/>
+  <path d="M 175,120 L 205,130" stroke="#9b59b6" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <circle cx="235" cy="135" r="3" fill="#9b59b6"/>
+  <path d="M 205,130 L 235,135" stroke="#9b59b6" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <circle cx="260" cy="132" r="3" fill="#9b59b6"/>
+  <path d="M 235,135 L 260,132" stroke="#9b59b6" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Final point (red) -->
+  <circle cx="275" cy="125" r="6" fill="#ef4444" stroke="#dc2626" stroke-width="2"/>
+
+  <!-- Arrowhead marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#9b59b6"/>
+    </marker>
+  </defs>
+
+  <!-- Info box -->
+  <rect x="60" y="265" width="280" height="25" fill="white" stroke="#e0e0e0" stroke-width="1" rx="4"/>
+  <text x="200" y="282" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#666">
+    L2 regularization • Grey circles show penalty regions • Trajectory converges to intersection
+  </text>
+</svg>

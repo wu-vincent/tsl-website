@@ -4,6 +4,10 @@
     margin-bottom: 20px;
 }
 
+.plot-container--spaced {
+    margin-top: 30px;
+}
+
 .controls {
     height: 470px;
 }
@@ -16,36 +20,6 @@
     font-size: 18px;
     font-weight: bold;
     color: #2563eb;
-}
-
-/* Gradient slider for bias-variance */
-#degree-slider::-webkit-slider-track {
-    background: linear-gradient(to right, #2563eb 0%, #059669 50%, #dc2626 100%);
-    height: 6px;
-    border-radius: 3px;
-}
-
-#degree-slider::-moz-range-track {
-    background: linear-gradient(to right, #2563eb 0%, #059669 50%, #dc2626 100%);
-    height: 6px;
-    border-radius: 3px;
-}
-
-#degree-slider::-webkit-slider-thumb {
-    background: linear-gradient(135deg, #2563eb 0%, #dc2626 100%);
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-#degree-slider::-moz-range-thumb {
-    background: linear-gradient(135deg, #2563eb 0%, #dc2626 100%);
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
 }
 
 /* Button styling */
@@ -86,7 +60,7 @@
     font-size: 13px;
 }
 
-/* MSE boxes - colors are set via MetricBoxDisplay in script.js */
+/* MSE boxes - colors are set via MetricLabel in script.js */
 
 /* Chart containers */
 canvas {
@@ -95,81 +69,10 @@ canvas {
 
 #scatterPlot {
     height: 520px !important;
+    max-width: 650px;
+    max-height: 520px;
 }
 
 #errorChart {
     height: auto;
-}
-
-/* Feature grid for toggle boxes */
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 8px;
-}
-
-.feature-box {
-    padding: 12px 16px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 14px;
-    border: 2px solid transparent;
-    border-radius: 0;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    opacity: 0.4;
-    filter: grayscale(50%);
-}
-
-.feature-icon {
-    font-size: 28px;
-    line-height: 1;
-}
-
-.feature-label {
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.feature-box:hover {
-    transform: translateY(-2px);
-    opacity: 0.6;
-}
-
-/* Squared Errors toggle - Red */
-.feature-squared-errors {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-    color: white;
-}
-
-.feature-squared-errors.active {
-    opacity: 1;
-    filter: grayscale(0%);
-    border-color: #dc2626;
-}
-
-.feature-squared-errors.active:hover {
-    background: linear-gradient(135deg, #b91c1c, #991b1b);
-}
-
-/* Test Data toggle - Orange */
-.feature-test-data {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-}
-
-.feature-test-data.active {
-    opacity: 1;
-    filter: grayscale(0%);
-    border-color: #f59e0b;
-}
-
-.feature-test-data.active:hover {
-    background: linear-gradient(135deg, #d97706, #b45309);
 }

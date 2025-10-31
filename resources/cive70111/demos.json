@@ -64,8 +64,16 @@
           "preview": "preview.svg"
         },
         {
-          "id": "perceptrons",
+          "id": "gradient-descent-with-regularisation",
           "code": "lec03d",
+          "path": "lec03d_gradient-descent-with-regularisation",
+          "title": "Regularised GD",
+          "description": "Visualize how L1 and L2 regularization geometrically reshape the loss surface and affect gradient descent trajectories. Watch optimization paths converge to different solutions based on penalty strength.",
+          "preview": "preview.svg"
+        },
+        {
+          "id": "perceptrons",
+          "code": "lec03e",
           "path": "lec03e_perceptrons",
           "title": "Perceptrons",
           "description": "The first neural network algorithm: step through perceptron learning epoch-by-epoch, watching the decision boundary adapt to separate two classes.",
@@ -73,7 +81,7 @@
         },
         {
           "id": "classification",
-          "code": "lec03e",
+          "code": "lec03f",
           "path": "lec03f_classification",
           "title": "1-D Classification",
           "description": "Interactive logistic regression with adjustable decision boundaries. See how the sigmoid function creates smooth classification boundaries.",
@@ -81,7 +89,7 @@
         },
         {
           "id": "2d-classification",
-          "code": "lec03f",
+          "code": "lec03g",
           "path": "lec03g_2d-classification",
           "title": "2-D Classification",
           "description": "Multi-class classification with various boundary types (linear, polynomial, radial basis). Experiment with different decision boundary shapes.",
@@ -89,7 +97,7 @@
         },
         {
           "id": "classification-metrics",
-          "code": "lec03g",
+          "code": "lec03h",
           "path": "lec03h_metrics",
           "title": "Classification Metrics",
           "description": "Adjust decision thresholds and explore sensitivity, specificity, precision, accuracy, F1-score, and balanced accuracy. See why accuracy fails with imbalanced data.",
@@ -101,7 +109,7 @@
       "week": 5,
       "lectureNumber": "04",
       "lectureTitle": "Neural Networks",
-      "locked": true,
+      "locked": false,
       "demos": [
         {
           "id": "neural-networks",
@@ -123,7 +131,7 @@
           "id": "applying-neural-networks",
           "code": "lec04c",
           "path": "lec04c_applying-neural-networks",
-          "title": "Applying Neural Networks",
+          "title": "ANN Applications",
           "description": "Train neural networks on real civil engineering datasets. Configure architecture, compare with linear regression, and make predictions in real-world units.",
           "preview": "preview.svg"
         }

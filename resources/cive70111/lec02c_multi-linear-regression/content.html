@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-Linear Regression</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
+    <script src="../phoebe-js/datamanager.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     Multi-linear regression extends simple linear regression to handle multiple input features simultaneously. Instead of predicting from just one variable, we can use several features to make more accurate predictions.<br><br>
                     In civil engineering, this is particularly valuable for projects like predicting housing costs from multiple property characteristics, estimating structural loads from various design parameters, or forecasting traffic flow from multiple environmental factors.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     • Click feature boxes to enable/disable them (colored = enabled, gray = disabled). The model will automatically re-train.<br>
                     • Using the plot below, compare the actual vs predicted prices. The closer the points are to the diagonal line, the better the predictions<br>
                     • Try different feature combinations to see how they affect performance, and observe how metrics change with different feature sets<br><br>
@@ -35,7 +35,7 @@
 
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     <strong>Understanding the Results:</strong><br><br>
                     • <strong>R² values:</strong> 0.0-0.3 (poor), 0.3-0.7 (moderate), 0.7+ (good fit)<br>
                     • <strong>MSE (Mean Squared Error):</strong> Lower values indicate better fit - measures average squared differences<br>
@@ -54,35 +54,23 @@
             <div class="controls">
                 <div class="control-group">
                     <label>Select Features:</label>
-                    <div class="feature-grid">
-                        <div class="feature-box feature-area active" data-feature="area">
-                            <div class="feature-icon">📐</div>
-                            <div class="feature-label">Area (sq ft)</div>
-                        </div>
-                        <div class="feature-box feature-bedrooms active" data-feature="bedrooms">
-                            <div class="feature-icon">🛏️</div>
-                            <div class="feature-label">Bedrooms</div>
-                        </div>
-                        <div class="feature-box feature-bathrooms active" data-feature="bathrooms">
-                            <div class="feature-icon">🚿</div>
-                            <div class="feature-label">Bathrooms</div>
-                        </div>
-                        <div class="feature-box feature-stories active" data-feature="stories">
-                            <div class="feature-icon">🏢</div>
-                            <div class="feature-label">Stories</div>
-                        </div>
+                    <div class="selector-grid">
+                        <div class="selectorbox active" data-color="blue" data-feature="area" data-icon="📐" data-label="Area (sq ft)"></div>
+                        <div class="selectorbox active" data-color="purple" data-feature="bedrooms" data-icon="🛏️" data-label="Bedrooms"></div>
+                        <div class="selectorbox active" data-color="teal" data-feature="bathrooms" data-icon="🚿" data-label="Bathrooms"></div>
+                        <div class="selectorbox active" data-color="cyan" data-feature="stories" data-icon="🏢" data-label="Stories"></div>
                     </div>
                 </div>
 
-                <div class="equation" id="mae">
+                <div class="metriclabel" id="mae">
                     MAE = 0.0
                 </div>
 
-                <div class="equation" id="mse">
+                <div class="metriclabel" id="mse">
                     MSE = 0.0
                 </div>
 
-                <div class="equation" id="r2">
+                <div class="metriclabel" id="r2">
                     R² = 0.0
                 </div>
             </div>
@@ -105,8 +93,8 @@
         </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
-    <script src="../scripts/metric-box-display.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/metriclabel.js"></script>
     <script src="script.js"></script>
     <script>
         // Hook into MathJax's ready callback

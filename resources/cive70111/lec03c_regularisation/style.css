@@ -11,141 +11,77 @@ canvas {
     color: #2563eb;
 }
 
-/* Coefficients Table (horizontal scrolling, similar to lec02b) */
-.coefficients-container {
-    margin-top: 20px;
-    background: #f8f9fa;
-    border: 2px solid #dee2e6;
-    border-radius: 0;
-    padding: 8px;
-}
-
-.coefficients-title {
-    font-weight: bold;
-    font-size: 12px;
-    color: #333;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.coefficients-scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    max-width: 100%;
-}
-
-.coefficients-scroll::-webkit-scrollbar {
-    height: 8px;
-}
-
-.coefficients-scroll::-webkit-scrollbar-track {
-    background: #e9ecef;
-}
-
-.coefficients-scroll::-webkit-scrollbar-thumb {
-    background: #6c757d;
-    border-radius: 4px;
-}
-
-.coefficients-scroll::-webkit-scrollbar-thumb:hover {
-    background: #495057;
-}
-
-.coefficients-table {
-    width: auto;
-    border-collapse: collapse;
-    font-size: 13px;
-    white-space: nowrap;
-}
-
-.coefficients-table tbody th {
-    background: #343a40;
-    color: white;
-    padding: 6px 10px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 12px;
-    border: 1px solid #23272b;
+/* Demo-specific cell color classes for coefficients table */
+.horizontal-scroll-table tbody td.var-badge {
+    background: #2c3e50 !important;
+    color: white !important;
+    font-weight: 700;
+    font-family: inherit;
     position: sticky;
     left: 0;
     z-index: 2;
-    min-width: 100px;
 }
 
-.coefficients-table tbody td {
-    padding: 4px 6px;
-    text-align: center;
-    border: 1px solid #dee2e6;
-    background: white;
-    font-family: monospace;
-    font-size: 12px;
-    min-width: 65px;
-}
-
-.coefficients-table tbody td.var-badge {
-    background: #2c3e50;
-    color: white;
-    font-weight: 700;
-    font-family: inherit;
-}
-
-.coefficients-table tbody td.unreg-value {
+.horizontal-scroll-table tbody td.unreg-value {
     background: #e9ecef;
     color: #6c757d;
 }
 
-.coefficients-table tbody td.l1-penalty {
+.horizontal-scroll-table tbody td.l1-penalty {
     background: #fff3e0;
     color: #e67e22;
 }
 
-.coefficients-table tbody td.l2-penalty {
+.horizontal-scroll-table tbody td.l2-penalty {
     background: #f3e5f5;
     color: #9b59b6;
 }
 
-.coefficients-table tbody td.eff-value {
+.horizontal-scroll-table tbody td.eff-value {
     background: #d1ecf1;
     color: #0c5460;
     font-weight: bold;
 }
 
-.coefficients-table tbody td.delta-value {
+.horizontal-scroll-table tbody td.delta-value {
     font-weight: bold;
 }
 
-.coefficients-table tbody td.delta-value.shrinkage {
+.horizontal-scroll-table tbody td.delta-value.shrinkage {
     background: #d4edda;
     color: #155724;
 }
 
-.coefficients-table tbody td.delta-value.growth {
+.horizontal-scroll-table tbody td.delta-value.growth {
     background: #fff3cd;
     color: #856404;
 }
 
-.coefficients-table tbody td.delta-value.neutral {
+.horizontal-scroll-table tbody td.delta-value.neutral {
     background: #e9ecef;
     color: #6c757d;
 }
 
 /* Zero values shown as dashes should not be bold */
-.coefficients-table tbody td.zero-dash {
+.horizontal-scroll-table tbody td.zero-dash {
     font-weight: normal !important;
 }
 
-.coefficients-table tbody tr:hover td:not(.var-badge) {
+.horizontal-scroll-table tbody tr:hover td:not(.var-badge) {
     filter: brightness(0.95);
 }
 
-/* Equation Display - at top */
-.equation-container {
+/* MetricLabel Display - at top */
+.metriclabel-container {
     display: flex;
     justify-content: center;
 }
 
-.equation-row {
+.metriclabel-container--spaced {
+    margin: 20px 0;
+}
+
+.metriclabel-row {
     text-align: center;
     font-size: 16px;
     padding: 10px 20px;

@@ -4,23 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K-Means Clustering</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     <h3>K-Means Clustering</h3>
                     <p>K-means is one of the most popular unsupervised machine learning algorithms for clustering data into groups. It partitions data into k clusters by finding centroids that minimize the within-cluster sum of squared distances.</p>
 
@@ -35,12 +34,12 @@
                     <p>The algorithm is iterative and guaranteed to converge, though not necessarily to the global optimum.</p>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Theory">
+                <div class="infotab-panel" data-tab-title="Theory">
                     <h3>Mathematical Foundation</h3>
 
                     <p>K-means minimizes the within-cluster sum of squared distances (WCSS):</p>
 
-                    <div class="equation-block">
+                    <div class="metriclabel-block">
                         $$J = \sum_{i=1}^{k} \sum_{x \in C_i} ||x - \mu_i||^2$$
                     </div>
 
@@ -65,7 +64,7 @@
                     <p><strong>Convergence:</strong> The algorithm converges when centroids no longer change position between iterations, or the change is below a threshold.</p>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     <h3>How to Use This Demo</h3>
 
                     <p><strong>Basic Controls:</strong></p>
@@ -94,7 +93,7 @@
                     </ul>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     <h3>Understanding K-Means</h3>
 
                     <p><strong>Choosing K:</strong></p>
@@ -200,10 +199,10 @@
                 </div>
 
                 <div class="control-group">
-                    <div class="equation">
+                    <div class="metriclabel">
                         Objective: $\min \sum_{i=1}^{k} \sum_{x \in C_i} ||x - \mu_i||^2$
                     </div>
-                    <div class="equation-description">
+                    <div class="metriclabel-description">
                         Minimize within-cluster sum of squared distances
                     </div>
                 </div>
@@ -213,7 +212,7 @@
         </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
     <script src="script.js?v=2"></script>
 </body>
 </html>

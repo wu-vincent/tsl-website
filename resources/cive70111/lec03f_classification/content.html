@@ -4,30 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1D Classification</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     Classification is a fundamental machine learning task where we predict discrete categories rather than continuous values. This demo explores binary classification in one dimension, comparing linear models with and without sigmoid activation.<br><br>
                     In civil engineering, classification problems include failure prediction, quality assessment, safety categorization, and risk classification for structures and systems.<br><br>
                     <strong>Threshold selection:</strong> While this demo uses the standard threshold of 0.5 (predict class 1 if $P(y=1) \geq 0.5$), in practice we often adjust this threshold based on application requirements. For safety-critical applications (e.g., structural failure detection), we might lower the threshold to $t=0.3$ to increase sensitivity—accepting more false alarms to avoid missing critical cases. The handout discusses this practical consideration in detail.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     • Adjust $\alpha$ (slope) and $\beta$ (position) sliders, and toggle sigmoid activation to compare linear vs sigmoid models<br>
                     • Click above/below y=0.5 to add class 1/0 points, or use <em>"Generate New Data"</em> and <em>"Clear All Data"</em> buttons<br>
                     • Observe how sigmoid activation changes predictions, loss functions, and decision boundaries<br><br>
@@ -35,7 +34,7 @@
                     <strong>How does the sigmoid activation change the model behavior? Which loss function is more appropriate for classification?</strong>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     • <strong>Decision boundary:</strong> The point where the model switches between classes<br>
                     • <strong>Sigmoid benefits:</strong> Outputs probabilities (0-1 range) and smooth transitions<br>
                     • <strong>Linear vs sigmoid:</strong> Linear can predict outside [0,1], sigmoid cannot<br>
@@ -49,7 +48,7 @@
         <div class="demo-area">
             <div class="left-column-wrapper">
                 <div class="plot-container">
-                    <div style="position: relative; width: 680px; height: 280px;">
+                    <div class="plot-stage plot-stage--w-680 plot-stage--h-280">
                         <canvas id="plot"></canvas>
                     </div>
                 </div>
@@ -64,26 +63,23 @@
                     </div>
 
                     <!-- Classifier Selector Panel -->
-                    <div class="classifier-selector-panel">
+                    <div class="fancybox-panel">
                         <h4>Classifier Type</h4>
-                        <div class="classifier-boxes">
-                            <div class="classifier-box active" data-classifier="linear">
-                                <svg class="classifier-graphic" viewBox="0 0 60 60" width="45" height="45">
+                        <div class="fancybox-container">
+                            <div class="fancybox active" data-type="linear" data-color="blue" data-label="Linear">
+                                <svg class="fancybox-graphic" viewBox="0 0 60 60" width="45" height="45">
                                     <line x1="10" y1="50" x2="50" y2="10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
                                 </svg>
-                                <span class="classifier-label">Linear</span>
                             </div>
-                            <div class="classifier-box" data-classifier="step">
-                                <svg class="classifier-graphic" viewBox="0 0 60 60" width="45" height="45">
+                            <div class="fancybox" data-type="step" data-color="orange" data-label="Step">
+                                <svg class="fancybox-graphic" viewBox="0 0 60 60" width="45" height="45">
                                     <path d="M 10 50 L 30 50 L 30 10 L 50 10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span class="classifier-label">Step</span>
                             </div>
-                            <div class="classifier-box" data-classifier="sigmoid">
-                                <svg class="classifier-graphic" viewBox="0 0 60 60" width="45" height="45">
+                            <div class="fancybox" data-type="sigmoid" data-color="purple" data-label="Sigmoid">
+                                <svg class="fancybox-graphic" viewBox="0 0 60 60" width="45" height="45">
                                     <path d="M 10 50 Q 20 50 30 30 Q 40 10 50 10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
                                 </svg>
-                                <span class="classifier-label">Sigmoid</span>
                             </div>
                         </div>
                     </div>
@@ -107,25 +103,25 @@
                     </div>
                 </div>
 
-                <div class="equation" id="equation">
+                <div class="metriclabel" id="equation">
                     f(x) = 0.1x + 0.0
                 </div>
 
-                <div class="equation" id="accuracy" style="margin-top: 15px;">
+                <div class="metriclabel" id="accuracy">
                     Accuracy = 0.0%
                 </div>
 
-                <div class="equation" id="loss" style="margin-top: 10px;">
+                <div class="metriclabel" id="loss">
                     Loss = 0.0
                 </div>
             </div>
         </div>
 
         <!-- Predictions Table -->
-        <div class="predictions-table-section">
-            <h3>Predictions Table</h3>
-            <div class="table-scroll">
-                <table class="predictions-table" id="predictionsTable">
+        <div class="horizontal-scroll-container">
+            <div class="horizontal-scroll-title">Predictions Table</div>
+            <div class="horizontal-scroll">
+                <table class="horizontal-scroll-table predictions-table" id="predictionsTable">
                     <tbody>
                         <tr id="tableIDRow">
                             <th>ID</th>
@@ -151,7 +147,7 @@
         </div>
 
         <!-- Theory Section -->
-        <div class="theory-section" style="display: none;">
+        <div class="theory-section is-hidden">
             <h3>Mathematical Foundations</h3>
             <p>
                 <strong>The Sigmoid (Logistic) Function</strong> maps any real value to a probability between 0 and 1:
@@ -173,15 +169,15 @@
             </p>
         </div>
 
-        <p style="font-style: italic; text-align: right; margin-top: 10px; color: #666; font-size: 14px;">
-            Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank" style="color: #666; text-decoration: underline;">Kevin Yu</a> & <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank" style="color: #666; text-decoration: underline;">Panagiotis Angeloudis</a>
+        <p class="demo-credits">
+            Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank">Kevin Yu</a> & <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank">Panagiotis Angeloudis</a>
         </p>
 
     </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
-    <script src="../scripts/metric-box-display.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/metriclabel.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

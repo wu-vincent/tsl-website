@@ -5,7 +5,7 @@
 }
 
 /* Remove padding for Lasso tab panel */
-.tab-panel[data-tab-title="Lasso"] {
+.infotab-panel[data-tab-title="Lasso"] {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
 }
@@ -67,8 +67,8 @@
     color: #2c3e50;
 }
 
-/* Metric boxes - styled like .equation but keep MetricBoxDisplay colors */
-.metrics-sidebar .metric-box {
+/* Metric boxes - styled like .metriclabel but keep MetricLabel colors */
+.metrics-sidebar .metriclabel {
     padding: 0 15px 15px 15px;
     border-radius: 0;
     text-align: center;
@@ -83,7 +83,7 @@
     height: 60px;
     box-sizing: border-box;
     padding-top: 10px;
-    /* background, color, border, border-left are set by MetricBoxDisplay for each metric's color */
+    /* background, color, border, border-left are set by MetricLabel for each metric's color */
 }
 
 /* Feature panel */
@@ -303,70 +303,6 @@
     margin-bottom: 20px;
 }
 
-.feature-box {
-    padding: 12px 16px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 14px;
-    border: 2px solid transparent;
-    border-radius: 0;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    opacity: 0.4;
-    filter: grayscale(50%);
-}
-
-.feature-icon {
-    font-size: 28px;
-    line-height: 1;
-}
-
-.feature-label {
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.feature-box:hover {
-    transform: translateY(-2px);
-    opacity: 0.6;
-}
-
-/* Train dataset toggle - Blue */
-.dataset-train {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: white;
-}
-
-.dataset-train.active {
-    opacity: 1;
-    filter: grayscale(0%);
-    border-color: #2563eb;
-}
-
-.dataset-train.active:hover {
-    background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
-}
-
-/* Test dataset toggle - Green */
-.dataset-test {
-    background: linear-gradient(135deg, #059669, #047857);
-    color: white;
-}
-
-.dataset-test.active {
-    opacity: 1;
-    filter: grayscale(0%);
-    border-color: #059669;
-}
-
-.dataset-test.active:hover {
-    background: linear-gradient(135deg, #047857, #065f46);
-}
 
 /* Model controls row: buttons + loss curve */
 .model-controls-row {

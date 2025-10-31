@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perceptrons</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
+    <script src="../phoebe-js/canvashelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     The perceptron is the simplest neural network, consisting of a single artificial neuron. Invented by Frank Rosenblatt in 1958, it was the first algorithm capable of learning to classify patterns from data.<br><br>
                     Perceptrons find applications in civil engineering for binary decision tasks like pass/fail structural assessment, safe/unsafe load classification, and go/no-go construction decisions.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     • Click the plot to add blue (class 0) or red (class 1) points, or use the dataset buttons for predefined examples<br>
                     • Click <em>"Step"</em> to train one epoch—the perceptron tests each point and updates the decision boundary when it finds errors<br>
                     • Adjust learning rate $\eta$ to control update step size. Watch how the boundary moves to separate the classes<br><br>
@@ -34,7 +34,7 @@
                     <strong>How many epochs does it take to converge for linearly separable data? What happens with non-separable data?</strong>
                 </div>
 
-                <div class="tab-panel" data-tab-title="Tips">
+                <div class="infotab-panel" data-tab-title="Tips">
                     • <strong>Decision boundary:</strong> The line $\beta_0 + \beta_1 x_1 + \beta_2 x_2 = 0$ separating the two classes<br>
                     • <strong>Convergence:</strong> Training stops when no errors are made in an epoch (for linearly separable data)<br>
                     • <strong>Misclassified points:</strong> Highlighted during training to show which points caused weight updates<br>
@@ -50,17 +50,19 @@
                 <!-- Data View (2/3 width) -->
                 <div class="view-panel">
                     <div class="view-title">Classification Plot</div>
-                    <canvas id="plotCanvas" style="width: 100%; height: 500px;"></canvas>
+                    <div class="plot-stage plot-stage--w-full plot-stage--h-450">
+                        <canvas id="plotCanvas"></canvas>
+                    </div>
                 </div>
 
                 <!-- Controls sidebar (1/3 width) -->
                 <div class="controls">
                     <!-- Click Mode Selection -->
                     <div class="control-group">
-                        <label style="font-weight: bold; margin-bottom: 10px; display: block;">Click adds:</label>
+                        <label class="control-label-strong">Click adds:</label>
                         <div class="class-selector">
-                            <button class="class-btn active" id="class0Btn" style="background: #3498db;">Class 0</button>
-                            <button class="class-btn" id="class1Btn" style="background: #e74c3c;">Class 1</button>
+                            <button class="class-btn active" id="class0Btn">Class 0</button>
+                            <button class="class-btn" id="class1Btn">Class 1</button>
                         </div>
                     </div>
 
@@ -71,7 +73,7 @@
 
                     <!-- Dataset Selection -->
                     <div class="control-group">
-                        <label style="font-weight: bold; margin-bottom: 10px; display: block;">Or Select Dataset:</label>
+                        <label class="control-label-strong">Or Select Dataset:</label>
                         <div class="dataset-grid">
                             <div class="dataset-box dataset-clean active" data-dataset="clean">
                                 <div class="dataset-icon">✨</div>
@@ -86,7 +88,7 @@
 
                     <!-- Perceptron Algorithm -->
                     <div class="control-group">
-                        <label style="font-weight: bold; margin-bottom: 10px; display: block;">Perceptron Algorithm:</label>
+                        <label class="control-label-strong">Perceptron Algorithm:</label>
                         <button class="step-btn" id="stepBtn">Step</button>
                     </div>
 
@@ -95,13 +97,7 @@
                     </div>
 
                     <!-- Learning Rate -->
-                    <div class="control-group">
-                        <label for="eta">$\eta$ (learning rate)</label>
-                        <div class="slider-container">
-                            <input type="range" id="eta" min="0.01" max="1" step="0.01" value="0.1">
-                            <div class="value-display" id="eta-value">0.10</div>
-                        </div>
-                    </div>
+                    <div id="paramslider-eta"></div>
                 </div>
             </div>
 
@@ -136,7 +132,7 @@
         </div>
 
         <!-- Theory Section -->
-        <div class="theory-section" style="display: none;">
+        <div class="theory-section is-hidden">
             <h3>Mathematical Foundations</h3>
             <p>
                 <strong>The Perceptron Algorithm</strong> is a supervised learning algorithm for binary linear classifiers. Given input $\mathbf{x} = (x_1, x_2)$ and weights $\boldsymbol{\beta} = (\beta_1, \beta_2)$ with bias $\beta_0$, the perceptron computes a <strong>weighted sum</strong>:<br>
@@ -157,15 +153,15 @@
             </p>
         </div>
 
-        <p style="font-style: italic; text-align: right; margin-top: 10px; color: #666; font-size: 14px;">
-            Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank" style="color: #666; text-decoration: underline;">Kevin Yu</a> & <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank" style="color: #666; text-decoration: underline;">Panagiotis Angeloudis</a>
+        <p class="demo-credits">
+            Developed by <a href="https://transport-systems.imperial.ac.uk/members/qu-k" target="_blank">Kevin Yu</a> & <a href="https://transport-systems.imperial.ac.uk/members/angeloudis-p" target="_blank">Panagiotis Angeloudis</a>
         </p>
 
     </div>
     </div>
 
-    <script src="../scripts/demotab.js"></script>
-    <script src="../scripts/slider-control.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/paramslider.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

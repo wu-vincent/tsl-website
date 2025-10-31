@@ -7,37 +7,49 @@
     margin-top: 20px;
 }
 
+/* Top Row: Plot (~65%) + Controls (~35%) */
 .top-row {
     display: flex;
     gap: 20px;
+    align-items: stretch;
 }
 
+.plot-container {
+    flex: 0 0 calc((100% - 20px) * 0.65);
+    border: 2px solid #ddd;
+    background: white;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.controls {
+    flex: 0 0 calc((100% - 20px) * 0.35);
+    background: #f5f7fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #dee2e6;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Bottom Row: Dataset Selector + Confusion Matrix */
 .bottom-row {
     display: flex;
     gap: 20px;
     width: 100%;
 }
 
-.plot-container {
-    flex: 2;
-    border: 2px solid #ddd;
-    background: white;
-    padding: 10px;
-}
-
-.controls {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
 .dataset-selector-panel {
     flex: 1;
+    box-sizing: border-box;
 }
 
 .confusion-matrix-container {
     flex: 1;
+    box-sizing: border-box;
 }
 
 canvas {
@@ -46,69 +58,13 @@ canvas {
     height: auto;
 }
 
-/* Dataset Selector Panel */
-.dataset-selector-panel {
-    border: 2px solid #ddd;
-    background: white;
-    padding: 15px;
-}
-
-.dataset-selector-panel h4 {
-    margin: 0 0 12px 0;
-    color: #2c3e50;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.dataset-boxes {
-    display: flex;
-    gap: 15px;
+/* Fancybox customization (styles come from phoebe.css) */
+.fancybox-container {
     justify-content: space-between;
 }
 
-.dataset-box {
+.fancybox {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 10px;
-    border: 3px solid #bdc3c7;
-    border-radius: 8px;
-    background: #ecf0f1;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.dataset-box:hover {
-    border-color: #95a5a6;
-    background: #dfe6e9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.dataset-box.active {
-    border-color: #3498db;
-    background: #ebf5fb;
-}
-
-.dataset-icon {
-    font-size: 28px;
-    margin-bottom: 8px;
-}
-
-.dataset-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #34495e;
-    text-align: center;
-    margin-bottom: 4px;
-}
-
-.dataset-info {
-    font-size: 11px;
-    color: #7f8c8d;
-    text-align: center;
 }
 
 /* Confusion Matrix */
@@ -116,6 +72,7 @@ canvas {
     border: 2px solid #ddd;
     background: white;
     padding: 15px;
+    border-radius: 0;
 }
 
 .confusion-matrix-container h4 {
@@ -212,105 +169,53 @@ canvas {
     font-size: 13px;
 }
 
-/* Metrics Grid */
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-.metric-box {
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    padding: 12px;
-    background: white;
-    transition: all 0.3s ease;
-}
-
-.metric-box:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.metric-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #7f8c8d;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
-
-.metric-value {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 8px;
-}
-
-.metric-bar {
-    height: 8px;
-    background: #ecf0f1;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 6px;
-}
-
-.metric-bar-fill {
-    height: 100%;
-    transition: width 0.3s ease, background-color 0.3s ease;
-    border-radius: 4px;
-}
-
-.metric-formula {
-    font-size: 10px;
-    color: #95a5a6;
-    font-family: monospace;
-}
-
-/* Metric-specific colors */
-.metric-sensitivity .metric-value {
+/* Metric Tracker - uses metric_tracker pattern from phoebe.css */
+/* Demo-specific metric colors */
+.metric-sensitivity .metric_tracker_value {
     color: #27ae60;
 }
 
-.metric-sensitivity .metric-bar-fill {
+.metric-sensitivity .metric_tracker_bar_fill {
     background: linear-gradient(90deg, #27ae60, #2ecc71);
 }
 
-.metric-specificity .metric-value {
+.metric-specificity .metric_tracker_value {
     color: #2980b9;
 }
 
-.metric-specificity .metric-bar-fill {
+.metric-specificity .metric_tracker_bar_fill {
     background: linear-gradient(90deg, #2980b9, #3498db);
 }
 
-.metric-precision .metric-value {
+.metric-precision .metric_tracker_value {
     color: #8e44ad;
 }
 
-.metric-precision .metric-bar-fill {
+.metric-precision .metric_tracker_bar_fill {
     background: linear-gradient(90deg, #8e44ad, #9b59b6);
 }
 
-.metric-accuracy .metric-value {
+.metric-accuracy .metric_tracker_value {
     color: #7f8c8d;
 }
 
-.metric-accuracy .metric-bar-fill {
+.metric-accuracy .metric_tracker_bar_fill {
     background: linear-gradient(90deg, #7f8c8d, #95a5a6);
 }
 
-.metric-f1 .metric-value {
+.metric-f1 .metric_tracker_value {
     color: #d35400;
 }
 
-.metric-f1 .metric-bar-fill {
+.metric-f1 .metric_tracker_bar_fill {
     background: linear-gradient(90deg, #d35400, #e67e22);
 }
 
-.metric-balanced .metric-value {
+.metric-balanced .metric_tracker_value {
     color: #16a085;
 }
 
-.metric-balanced .metric-bar-fill {
+.metric-balanced .metric_tracker_bar_fill {
     background: linear-gradient(90deg, #16a085, #1abc9c);
 }
 
@@ -319,4 +224,25 @@ canvas {
     font-size: 16px;
     font-weight: bold;
     color: #2563eb;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .top-row {
+        flex-direction: column;
+    }
+
+    .plot-container,
+    .controls {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .bottom-row {
+        flex-direction: column;
+    }
+
+    .dataset-boxes {
+        flex-direction: column;
+    }
 }

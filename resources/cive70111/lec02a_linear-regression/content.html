@@ -4,29 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linear Regression</title>
-    <script src="../scripts/mathjax-config.js"></script>
+    <script src="../phoebe-js/mathhelper.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../scripts/demotab.css">
-    <link rel="stylesheet" href="../demo-common.css">
+    <link rel="stylesheet" href="../phoebe-js/phoebe.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
         <div class="container">
 
-        <div class="info-tabs">
-            <div class="tab-header">
+        <div class="infotab">
+            <div class="infotab-header">
             </div>
 
-            <div class="tab-content">
-                <div class="tab-panel active" data-tab-title="Introduction">
+            <div class="infotab-content">
+                <div class="infotab-panel active" data-tab-title="Introduction">
                     This interactive demo helps you understand linear regression, one of the fundamental concepts in machine learning and statistics. Linear regression finds the best straight line through data points to model relationships between variables.<br><br>
                     You'll explore how changing the line parameters affects the fit quality, learn about different error metrics, and work with real civil engineering datasets to see linear regression in action.
                 </div>
 
-                <div class="tab-panel" data-tab-title="Instructions">
+                <div class="infotab-panel" data-tab-title="Instructions">
                     • Adjust the $\alpha$ (intercept) and $\beta$ (slope) sliders to move the regression line and observe how the error metrics change<br>
                     • Load sample datasets from civil engineering examples or generate/add your own data points by clicking on the plot<br>
                     • Toggle visualization options to explore squared errors and confidence intervals<br><br>
@@ -35,7 +34,7 @@
                 </div>
 
 
-                <div class="tab-panel" data-tab-title="Compete">
+                <div class="infotab-panel" data-tab-title="Compete">
                     <strong>Live Competition Mode</strong><br><br>
                     It's showtime! Your goal is to achieve the highest R² score in class using only manual parameter adjustment.<br><br>
                     <span style="color: darkred; font-weight: bold;">⚠️ Keep this tab active - switching to another tab may temporarily remove you from the leaderboard</span><br><br>
@@ -98,47 +97,22 @@
             </div>
 
             <div class="controls">
-                <div class="control-group">
-                    <div class="label-with-buttons">
-                        <label for="alpha">$\alpha$ (Intercept)</label>
-                        <div class="fine-tune-buttons">
-                            <button class="fine-tune-btn" id="alpha-minus">−</button>
-                            <button class="fine-tune-btn" id="alpha-plus">+</button>
-                        </div>
-                    </div>
-                    <div class="slider-container">
-                        <input type="range" id="alpha" min="-100" max="200" step="0.1" value="0">
-                        <div class="value-display" id="alpha-value">0</div>
-                    </div>
-                </div>
+                <div id="paramslider-alpha"></div>
+                <div id="paramslider-beta"></div>
 
-                <div class="control-group">
-                    <div class="label-with-buttons">
-                        <label for="beta">$\beta$ (Gradient/Slope)</label>
-                        <div class="fine-tune-buttons">
-                            <button class="fine-tune-btn" id="beta-minus">−</button>
-                            <button class="fine-tune-btn" id="beta-plus">+</button>
-                        </div>
-                    </div>
-                    <div class="slider-container">
-                        <input type="range" id="beta" min="-10" max="30" step="0.01" value="1">
-                        <div class="value-display" id="beta-value">1.0</div>
-                    </div>
-                </div>
-
-                <div class="equation" id="equation">
+                <div class="metriclabel" id="equation">
                     y = 1.0x + 0
                 </div>
 
-                <div class="equation" id="mae">
+                <div class="metriclabel" id="mae">
                     MAE = 0.0
                 </div>
 
-                <div class="equation" id="mse">
+                <div class="metriclabel" id="mse">
                     MSE = 0.0
                 </div>
 
-                <div class="equation" id="r2">
+                <div class="metriclabel" id="r2">
                     R² = 0.0
                 </div>
 
@@ -189,9 +163,13 @@
 
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
     <script src="../leaderboard-client.js"></script>
-    <script src="../scripts/demotab.js"></script>
-    <script src="../scripts/metric-box-display.js"></script>
-    <script src="../scripts/slider-control.js"></script>
+    <script src="../phoebe-js/infotab.js"></script>
+    <script src="../phoebe-js/metriclabel.js"></script>
+    <script src="../phoebe-js/paramslider.js"></script>
+    <!-- Utility classes -->
+    <script src="../phoebe-js/metrics.js"></script>
+    <script src="../phoebe-js/canvashelper.js"></script>
+    <script src="../phoebe-js/datamanager.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
