@@ -141,7 +141,7 @@
       "week": 6,
       "lectureNumber": "05",
       "lectureTitle": "Computer Vision",
-      "locked": true,
+      "locked": false,
       "demos": [
         {
           "id": "convolution-pooling",
