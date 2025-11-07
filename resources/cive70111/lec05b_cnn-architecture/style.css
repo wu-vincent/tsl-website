@@ -1,0 +1,53 @@
+/* Override global controls min-width for this demo's layout */
+.controls {
+    min-width: 190px;
+}
+
+/* Digit Numpad Styling */
+#digit-numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    width: 100%;
+    max-width: 180px;
+}
+
+.digit-btn {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 0;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.digit-btn:hover {
+    background: #f0f0f0;
+    border-color: #999;
+}
+
+.digit-btn:active {
+    background: #e0e0e0;
+}
+
+.digit-btn[data-digit="0"] {
+    grid-column: span 3;
+}
+
+/* Training Stats Box */
+.control-group .metriclabel {
+    font-size: 14px !important;
+    max-width: 180px;
+    line-height: 1.6;
+    padding: 12px 15px;
+    min-height: 90px;
+    box-sizing: border-box;
+}
+
+/* Training Buttons - Add spacing */
+#train-btn {
+    margin-bottom: 8px;
+}

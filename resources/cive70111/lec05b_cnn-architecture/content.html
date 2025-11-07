@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../phoebe-js/phoebe.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="iframe-content">
@@ -157,17 +158,17 @@
             <div class="controls">
                 <div class="control-group">
                     <label>Sample Digit:</label>
-                    <div id="digit-numpad" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; max-width: 150px;">
-                        <button class="digit-btn" data-digit="1" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">1</button>
-                        <button class="digit-btn" data-digit="2" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">2</button>
-                        <button class="digit-btn" data-digit="3" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">3</button>
-                        <button class="digit-btn" data-digit="4" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">4</button>
-                        <button class="digit-btn" data-digit="5" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">5</button>
-                        <button class="digit-btn" data-digit="6" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">6</button>
-                        <button class="digit-btn" data-digit="7" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">7</button>
-                        <button class="digit-btn" data-digit="8" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">8</button>
-                        <button class="digit-btn" data-digit="9" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0;">9</button>
-                        <button class="digit-btn" data-digit="0" style="padding: 10px; font-size: 16px; border: 2px solid #ddd; background: white; cursor: pointer; border-radius: 0; grid-column: span 3;">0</button>
+                    <div id="digit-numpad">
+                        <button class="digit-btn" data-digit="1">1</button>
+                        <button class="digit-btn" data-digit="2">2</button>
+                        <button class="digit-btn" data-digit="3">3</button>
+                        <button class="digit-btn" data-digit="4">4</button>
+                        <button class="digit-btn" data-digit="5">5</button>
+                        <button class="digit-btn" data-digit="6">6</button>
+                        <button class="digit-btn" data-digit="7">7</button>
+                        <button class="digit-btn" data-digit="8">8</button>
+                        <button class="digit-btn" data-digit="9">9</button>
+                        <button class="digit-btn" data-digit="0">0</button>
                     </div>
                 </div>
 
@@ -185,7 +186,7 @@
 
                 <div class="control-group">
                     <label>Current Training Stats:</label>
-                    <div class="metriclabel" style="font-size: 18px;">
+                    <div class="metriclabel">
                         Epoch: <span id="current-epoch">0</span>/20<br>
                         Loss: <span id="current-loss">2.303</span><br>
                         Accuracy: <span id="current-accuracy">10.0%</span>
