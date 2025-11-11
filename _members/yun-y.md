@@ -1,5 +1,5 @@
 ---
-name: Yen (Charles) Yu
+name: Yun (Charles) Ye
 position: Visiting Academic
 image: images/team/yun-y.jpg
 role: phd
